@@ -22,8 +22,8 @@ import { VenueListService } from "./venue-list.service";
 })
 export class VenueListComponent implements OnInit, OnDestroy {
     @Input() public title: string = "Поиск площадки";
-    @Input() public iconName: string = "";
-    @Input() public iconText: string = "";
+    @Input() public iconName: string = "add";
+    @Input() public iconText: string = "Добавить";
 
     @Input() public set venueLink(value: { venueId?: string }) {
         if (value && value.venueId) {

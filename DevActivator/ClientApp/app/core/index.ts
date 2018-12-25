@@ -9,3 +9,4 @@ export { CoreModule } from "./core.module";
 export { LayoutService } from "./layout.service";
 export { HttpService } from "./http.service";
 export { IMessage } from "./interfaces";
+export { DateConverterService } from "./date-converter.service";

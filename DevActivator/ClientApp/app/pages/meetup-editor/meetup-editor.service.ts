@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { API_ENDPOINTS, HttpService, LayoutService } from "@dotnetru/core";
+import { API_ENDPOINTS, DateConverterService, HttpService, LayoutService } from "@dotnetru/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
-import { IMeetup } from "./interfaces";
+import { IApiMeetup, IApiSession, IMeetup, ISession } from "./interfaces";
 
 @Injectable()
 export class MeetupEditorService {
@@ -31,19 +31,20 @@ export class MeetupEditorService {
     }
 
     public fetchMeetup(meetupId: string): void {
-        this._httpService.get<IMeetup>(
+        this._httpService.get<IApiMeetup>(
             API_ENDPOINTS.getMeetupUrl.replace("{{meetupId}}", meetupId),
-            (meetup: IMeetup) => {
-                this._dataStore.meetup = meetup;
+            (meetup: IApiMeetup) => {
+                this._dataStore.meetup = this.toMeetup(meetup);
                 this._meetup$.next(Object.assign({}, this._dataStore.meetup));
             });
     }
 
     public addMeetup(meetup: IMeetup): void {
-        this._httpService.post<IMeetup>(
+        const data: IApiMeetup = this.toApiMeetup(meetup);
+        this._httpService.post<IApiMeetup>(
             API_ENDPOINTS.addMeetupUrl,
-            meetup,
-            (x: IMeetup) => {
+            data,
+            (x: IApiMeetup) => {
                 this._layoutService.showInfo("Доклад добавлен успешно");
                 this._router.navigateByUrl(`meetup-editor${meetup ? `/${meetup.id}` : ""}`);
             },
@@ -51,12 +52,13 @@ export class MeetupEditorService {
     }
 
     public updateMeetup(meetup: IMeetup): void {
-        this._httpService.post<IMeetup>(
+        const data: IApiMeetup = this.toApiMeetup(meetup);
+        this._httpService.post<IApiMeetup>(
             API_ENDPOINTS.updateMeetupUrl,
-            meetup,
-            (x: IMeetup) => {
+            data,
+            (x: IApiMeetup) => {
                 this._layoutService.showInfo("Доклад изменён успешно");
-                this._dataStore.meetup = x;
+                this._dataStore.meetup = this.toMeetup(x);
                 this._meetup$.next(Object.assign({}, this._dataStore.meetup));
             },
         );
@@ -65,4 +67,18 @@ export class MeetupEditorService {
     public reset(): void {
         this._meetup$.next(Object.assign({}, this._dataStore.meetup));
     }
+
+    private toMeetup = (meetup: IApiMeetup): IMeetup => Object.assign({}, meetup, {
+        sessions: meetup.sessions.map((x: IApiSession) => Object.assign({}, x, {
+            endTime: DateConverterService.toMoment(x.endTime),
+            startTime: DateConverterService.toMoment(x.startTime),
+        })),
+    })
+
+    private toApiMeetup = (meetup: IMeetup): IApiMeetup => Object.assign({}, meetup, {
+        sessions: meetup.sessions.map((x: ISession) => Object.assign({}, x, {
+            endTime: DateConverterService.toApiString(x.endTime),
+            startTime: DateConverterService.toApiString(x.startTime),
+        })),
+    })
 }

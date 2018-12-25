@@ -1,12 +1,22 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule } from "@angular/material";
+import {
+    MAT_DATE_LOCALE,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+} from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { CoreModule } from "@dotnetru/core";
 import { FriendListModule } from "@dotnetru/friend-list";
 import { TalkListModule } from "@dotnetru/talk-list";
 import { VenueListModule } from "@dotnetru/venue-list";
+import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
+import { MatMomentDatetimeModule } from "@mat-datetimepicker/moment";
 
 import { MeetupEditorComponent } from "./meetup-editor.component";
 
@@ -30,6 +40,10 @@ import { MeetupEditorComponent } from "./meetup-editor.component";
         FormsModule,
         ReactiveFormsModule,
 
+        MatDatepickerModule,
+        MatMomentDatetimeModule,
+        MatDatetimepickerModule,
+
         MatButtonModule,
         MatCardModule,
         MatFormFieldModule,
@@ -40,6 +54,9 @@ import { MeetupEditorComponent } from "./meetup-editor.component";
         FriendListModule,
         VenueListModule,
         TalkListModule,
+    ],
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: "ru-RU" },
     ],
 })
 export class MeetupEditorModule { }

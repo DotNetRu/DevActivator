@@ -1,28 +1,29 @@
+import { Moment } from "moment";
+
 export interface IFriendReference {
     friendId: string;
 }
 
-export interface IApiSession {
+export interface ISession {
     talkId: string;
-    startTime: string;
-    endTime: string;
+    startTime: Moment;
+    endTime: Moment;
 }
 
-export type ISession = IApiSession & {
-    // todo: date to moment
-    startTime: Date;
-    endTime: Date;
-};
-
-export interface IApiMeetup {
+export interface IMeetup {
     id: string;
     name: string;
     communityId: string;
     friendIds: IFriendReference[];
     venueId: string;
-    sessions: IApiSession[];
+    sessions: ISession[];
 }
 
-export type IMeetup = IApiMeetup & {
-    sessions: ISession[];
+export type IApiSession = ISession & {
+    startTime: string;
+    endTime: string;
+};
+
+export type IApiMeetup = IMeetup & {
+    sessions: IApiSession[];
 };

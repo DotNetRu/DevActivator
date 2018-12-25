@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { FILE_SIZES, LABELS, LayoutService, MIME_TYPES, PATTERNS } from "@dotnetru/core";
+import { LABELS, LayoutService, PATTERNS } from "@dotnetru/core";
 import { IAutocompleteRow } from "@dotnetru/shared/autocomplete";
 import { Subscription } from "rxjs";
 

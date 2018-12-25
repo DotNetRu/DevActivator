@@ -19,7 +19,8 @@ const nonTreeShakableModules = [
     'es6-promise',
     'es6-shim',
     'event-source-polyfill',
-    '@angular/material/prebuilt-themes/indigo-pink.css',
+    'moment',
+    './ClientApp/app/styles.scss'
 ];
 const allModules = treeShakableModules.concat(nonTreeShakableModules);
 
@@ -27,11 +28,11 @@ module.exports = (env) => {
     const extractCSS = new ExtractTextPlugin('vendor.css');
     const isDevBuild = !(env && env.prod);
     const sharedConfig = {
-        stats: {modules: false},
-        resolve: {extensions: ['.js']},
+        stats: { modules: false },
+        resolve: { extensions: ['.js'] },
         module: {
             rules: [
-                {test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000'}
+                { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' }
             ]
         },
         output: {
@@ -52,10 +53,16 @@ module.exports = (env) => {
             // But for production builds, leave the tree-shakable ones out so the AOT compiler can produce a smaller bundle.
             vendor: isDevBuild ? allModules : nonTreeShakableModules
         },
-        output: {path: path.join(__dirname, 'wwwroot', 'dist')},
+        output: { path: path.join(__dirname, 'wwwroot', 'dist') },
         module: {
             rules: [
-                {test: /\.css(\?|$)/, use: extractCSS.extract({use: isDevBuild ? 'css-loader' : 'css-loader?minimize'})}
+                {
+                    test: /\.scss$/,
+                    use: extractCSS.extract([
+                        isDevBuild ? "css-loader" : "css-loader?minimize", // translates CSS into CommonJS
+                        "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                    ])
+                }
             ]
         },
         plugins: [

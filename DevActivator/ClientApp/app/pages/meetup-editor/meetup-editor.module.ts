@@ -9,6 +9,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
 } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { CoreModule } from "@dotnetru/core";
@@ -49,6 +50,7 @@ import { MeetupEditorComponent } from "./meetup-editor.component";
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatSelectModule,
 
         CoreModule,
         FriendListModule,

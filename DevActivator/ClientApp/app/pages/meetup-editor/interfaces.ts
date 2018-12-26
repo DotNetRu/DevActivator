@@ -1,19 +1,21 @@
 import { Moment } from "moment";
 
+import { Community } from "./enums";
+
 export interface IFriendReference {
     friendId: string;
 }
 
 export interface ISession {
     talkId: string;
-    startTime: Moment;
-    endTime: Moment;
+    startTime?: Moment;
+    endTime?: Moment;
 }
 
 export interface IMeetup {
     id: string;
     name: string;
-    communityId: string;
+    communityId: Community;
     friendIds: IFriendReference[];
     venueId: string;
     sessions: ISession[];

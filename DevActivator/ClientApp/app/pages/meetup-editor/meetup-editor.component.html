@@ -61,6 +61,18 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+        <mat-select name="communityId"
+                    placeholder="Сообщество"
+                    [(ngModel)]="meetup.communityId"
+                    required>
+            <mat-option *ngFor="let community of COMMUNITIES"
+                        [value]="community">
+                {{ Community[community] }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-card>
         <mtp-friend-list *ngFor="let rel of meetup.friendIds; let idx = index"
                          [title]="'Друг №' + (idx+1)"
@@ -90,7 +102,7 @@
                            [iconText]="'Убрать'"
                            [talkLink]="session"
                            (selected)="onTalkSelected($event, idx)"
-                           (iconClicked)="removeTalk(idx)"></mtp-talk-list>
+                           (iconClicked)="removeSession(idx)"></mtp-talk-list>
 
             <mat-form-field>
                 <mat-placeholder>Время начала</mat-placeholder>
@@ -107,7 +119,8 @@
                        [matDatetimepicker]="startDatetimePicker"
                        required
                        autocomplete="false"
-                       [(ngModel)]="session.startTime">
+                       [(ngModel)]="session.startTime"
+                       (ngModelChange)="tryFillEndTime(session)">
             </mat-form-field>
 
             <mat-form-field>
@@ -132,7 +145,7 @@
         <button type="button"
                 color="primary"
                 mat-button
-                (click)="addTalk()">
+                (click)="addSession()">
             <mat-icon>exposure_plus_1</mat-icon>
             <span>Добавить сессию</span>
         </button>

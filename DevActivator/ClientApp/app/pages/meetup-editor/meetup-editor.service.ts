@@ -77,8 +77,8 @@ export class MeetupEditorService {
 
     private toApiMeetup = (meetup: IMeetup): IApiMeetup => Object.assign({}, meetup, {
         sessions: meetup.sessions.map((x: ISession) => Object.assign({}, x, {
-            endTime: DateConverterService.toApiString(x.endTime),
-            startTime: DateConverterService.toApiString(x.startTime),
+            endTime: DateConverterService.toApiString(x.endTime!),
+            startTime: DateConverterService.toApiString(x.startTime!),
         })),
     })
 }

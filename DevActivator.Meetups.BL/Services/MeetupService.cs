@@ -46,6 +46,7 @@ namespace DevActivator.Meetups.BL.Services
             }
 
             var entity = new Meetup {Id = meetup.Id}.Extend(meetup);
+            entity.Date = entity.Sessions.First().StartTime.ToString("yyyy-MM-dd");
             var res = await _meetupProvider.SaveMeetupAsync(entity).ConfigureAwait(false);
             return res.ToVm();
         }

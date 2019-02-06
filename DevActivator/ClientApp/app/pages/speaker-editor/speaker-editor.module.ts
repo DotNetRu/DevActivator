@@ -7,15 +7,18 @@ import { CoreModule } from "@dotnetru/core";
 import { FileDialogModule } from "@dotnetru/shared/file-dialog";
 
 import { SpeakerImageUrlPipe } from "./pipes";
+import { SpeakerEditorDialogComponent } from "./speaker-editor-dialog.component";
 import { SpeakerEditorComponent } from "./speaker-editor.component";
 
 @NgModule({
     declarations: [
         SpeakerEditorComponent,
+        SpeakerEditorDialogComponent,
         SpeakerImageUrlPipe,
     ],
     entryComponents: [
         SpeakerEditorComponent,
+        SpeakerEditorDialogComponent,
     ],
     exports: [
         SpeakerEditorComponent,
@@ -40,5 +43,4 @@ import { SpeakerEditorComponent } from "./speaker-editor.component";
         FileDialogModule,
     ],
 })
-export class SpeakerEditorModule {
-}
+export class SpeakerEditorModule { }

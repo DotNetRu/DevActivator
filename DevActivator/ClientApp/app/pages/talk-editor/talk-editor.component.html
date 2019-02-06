@@ -69,16 +69,25 @@
                           [speakerLink]="rel"
                           (selected)="onSpeakerSelected($event, idx)"
                           (iconClicked)="removeSpeaker(idx)"></mtp-speaker-list>
-        <button type="button"
-                color="primary"
-                mat-button
-                (click)="addSpeaker()">
-            <mat-icon>person_add</mat-icon>
-            <span *ngIf="talk.speakerIds.length === 0">Добавить спикера</span>
-            <span *ngIf="talk.speakerIds.length === 1">Это парный доклад</span>
-            <span *ngIf="talk.speakerIds.length === 2">Это тройничок</span>
-            <span *ngIf="talk.speakerIds.length >=3">Это круглый стол</span>
-        </button>
+        <div class="actions__space-between">
+            <button type="button"
+                    color="primary"
+                    mat-button
+                    (click)="addSpeaker()">
+                <mat-icon>person_add</mat-icon>
+                <span *ngIf="talk.speakerIds.length === 0">Добавить спикера</span>
+                <span *ngIf="talk.speakerIds.length === 1">Это парный доклад</span>
+                <span *ngIf="talk.speakerIds.length === 2">Это тройничок</span>
+                <span *ngIf="talk.speakerIds.length >=3">Это круглый стол</span>
+            </button>
+            <button type="button"
+                    color="primary"
+                    mat-button
+                    (click)="createSpeaker()">
+                <mat-icon>fiber_new</mat-icon>
+                <span>Создать</span>
+            </button>
+        </div>
     </mat-card>
 
     <mat-form-field>

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { CoreModule } from "@dotnetru/core";
+import { SpeakerEditorModule } from "@dotnetru/pages/speaker-editor";
 import { SpeakerListModule } from "@dotnetru/speaker-list";
 
 import { TalkEditorComponent } from "./talk-editor.component";
@@ -36,6 +37,7 @@ import { TalkEditorComponent } from "./talk-editor.component";
 
         CoreModule,
         SpeakerListModule,
+        SpeakerEditorModule,
     ],
 })
 export class TalkEditorModule { }

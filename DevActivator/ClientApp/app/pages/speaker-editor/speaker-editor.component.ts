@@ -38,6 +38,8 @@ export class SpeakerEditorComponent implements OnInit, OnDestroy {
 
     public editMode: boolean = false;
 
+    protected isDialog: boolean = false;
+
     private _speakerId?: string;
     private _subs: Subscription[] = [];
 
@@ -77,13 +79,16 @@ export class SpeakerEditorComponent implements OnInit, OnDestroy {
         }
     }
 
-    public save(): void {
+    public save(cb?: (speaker: ISpeaker) => void): void {
         if (this.editMode) {
             this._speakerEditorService.updateSpeaker(this.speaker, () => {
                 this.saved.emit(this.speaker);
             });
         } else {
-            this._speakerEditorService.addSpeaker(this.speaker);
+            cb = cb || ((speaker: ISpeaker) => {
+                this._router.navigateByUrl(`speaker-editor${speaker ? `/${speaker.id}` : ""}`);
+            });
+            this._speakerEditorService.addSpeaker(this.speaker, cb);
         }
     }
 

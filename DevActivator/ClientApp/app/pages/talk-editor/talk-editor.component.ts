@@ -1,6 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+} from "@angular/core";
+import { MatDialog } from "@angular/material";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { LABELS, LayoutService, PATTERNS } from "@dotnetru/core";
+import { ISpeaker, SpeakerEditorDialogComponent } from "@dotnetru/pages/speaker-editor";
 import { IAutocompleteRow } from "@dotnetru/shared/autocomplete";
 import { Subscription } from "rxjs";
 
@@ -42,6 +53,7 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
     constructor(
         private _talkEditorService: TalkEditorService,
         private _layoutService: LayoutService,
+        private _dialog: MatDialog,
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -99,5 +111,19 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
 
     public addSpeaker(): void {
         this.talk.speakerIds.push({ speakerId: "" });
+    }
+
+    public createSpeaker(): void {
+        const dialogRef = this._dialog.open(SpeakerEditorDialogComponent, {
+            panelClass: "full-height",
+            width: "640px",
+        });
+
+        dialogRef.afterClosed().subscribe((speaker?: ISpeaker) => {
+            if (speaker && speaker.id) {
+                this.talk.speakerIds.push({ speakerId: speaker.id });
+                this._changeDetectorRef.detectChanges();
+            }
+        });
     }
 }

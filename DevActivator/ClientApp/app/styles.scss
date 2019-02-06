@@ -12,3 +12,5 @@ $theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 @import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
 // Using the $theme variable from the pre-built theme you can call the theming function
 @include mat-datetimepicker-theme($theme);
+@import "./themes/snack-bar.theme.scss";
+@import "./themes/common.scss";

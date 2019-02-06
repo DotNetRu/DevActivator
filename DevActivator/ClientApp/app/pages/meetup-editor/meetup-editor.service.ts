@@ -8,6 +8,13 @@ import { IApiMeetup, IApiSession, IMeetup, ISession } from "./interfaces";
 
 @Injectable()
 export class MeetupEditorService {
+    public static toMeetup = (meetup: IApiMeetup): IMeetup => Object.assign({}, meetup, {
+        sessions: meetup.sessions.map((x: IApiSession) => Object.assign({}, x, {
+            endTime: DateConverterService.toMoment(x.endTime),
+            startTime: DateConverterService.toMoment(x.startTime),
+        })),
+    })
+
     private _meetup$: BehaviorSubject<IMeetup | null> = new BehaviorSubject<IMeetup | null>(null);
     private _dataStore = {
         meetup: {} as IMeetup,
@@ -34,7 +41,7 @@ export class MeetupEditorService {
         this._httpService.get<IApiMeetup>(
             API_ENDPOINTS.getMeetupUrl.replace("{{meetupId}}", meetupId),
             (meetup: IApiMeetup) => {
-                this._dataStore.meetup = this.toMeetup(meetup);
+                this._dataStore.meetup = MeetupEditorService.toMeetup(meetup);
                 this._meetup$.next(Object.assign({}, this._dataStore.meetup));
             });
     }
@@ -58,7 +65,7 @@ export class MeetupEditorService {
             data,
             (x: IApiMeetup) => {
                 this._layoutService.showInfo("Доклад изменён успешно");
-                this._dataStore.meetup = this.toMeetup(x);
+                this._dataStore.meetup = MeetupEditorService.toMeetup(x);
                 this._meetup$.next(Object.assign({}, this._dataStore.meetup));
             },
         );
@@ -67,13 +74,6 @@ export class MeetupEditorService {
     public reset(): void {
         this._meetup$.next(Object.assign({}, this._dataStore.meetup));
     }
-
-    private toMeetup = (meetup: IApiMeetup): IMeetup => Object.assign({}, meetup, {
-        sessions: meetup.sessions.map((x: IApiSession) => Object.assign({}, x, {
-            endTime: DateConverterService.toMoment(x.endTime),
-            startTime: DateConverterService.toMoment(x.startTime),
-        })),
-    })
 
     private toApiMeetup = (meetup: IMeetup): IApiMeetup => Object.assign({}, meetup, {
         sessions: meetup.sessions.map((x: ISession) => Object.assign({}, x, {

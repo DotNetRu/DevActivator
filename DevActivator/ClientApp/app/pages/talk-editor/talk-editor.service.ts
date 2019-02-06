@@ -50,7 +50,7 @@ export class TalkEditorService {
         );
     }
 
-    public updateTalk(talk: ITalk): void {
+    public updateTalk(talk: ITalk, cb: () => void): void {
         this._httpService.post<ITalk>(
             API_ENDPOINTS.updateTalkUrl,
             talk,
@@ -58,6 +58,7 @@ export class TalkEditorService {
                 this._layoutService.showInfo("Доклад изменён успешно");
                 this._dataStore.talk = x;
                 this._talk$.next(Object.assign({}, this._dataStore.talk));
+                cb();
             },
         );
     }

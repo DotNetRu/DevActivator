@@ -9,6 +9,7 @@ import { MeetupEditorModule } from "@dotnetru/pages/meetup-editor";
 import { SearchPageModule } from "@dotnetru/pages/search";
 import { SpeakerEditorModule } from "@dotnetru/pages/speaker-editor";
 import { TalkEditorModule } from "@dotnetru/pages/talk-editor";
+import { TimepadModule } from "@dotnetru/pages/timepad";
 import { VenueEditorModule } from "@dotnetru/pages/venue-editor";
 import { AutocompleteModule } from "@dotnetru/shared/autocomplete";
 import { SpeakerListModule } from "@dotnetru/speaker-list";
@@ -41,6 +42,8 @@ import { SearchPageComponent } from "./pages/search/search.component";
         MeetupEditorModule,
         TalkEditorModule,
         VenueEditorModule,
+
+        TimepadModule,
 
         SearchPageModule,
 

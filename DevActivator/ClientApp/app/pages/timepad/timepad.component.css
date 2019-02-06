@@ -1,0 +1,47 @@
+:host {
+    display: block;
+    height: calc(100% - 64px);
+}
+
+.container {
+    max-width: 640px;
+    margin: 0 auto;
+    height: 100%;
+    overflow: auto;
+}
+
+.mat-list-item {
+    height: auto !important;
+    padding: 12px 0 !important;
+}
+
+.list-item-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.session-description {
+    padding-left: 8px;
+}
+
+h3,
+p {
+    white-space: pre-wrap;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.about {
+    display: flex;
+}
+
+.avatar {
+    max-width: 200px;
+}
+
+.mat-expansion-panel-header-title {
+    flex-direction: column;
+}

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { FILE_SIZES, LABELS, LayoutService, MIME_TYPES, PATTERNS } from "@dotnetru/core";
+import { LABELS, LayoutService, PATTERNS } from "@dotnetru/core";
 import { IAutocompleteRow } from "@dotnetru/shared/autocomplete";
 import { Subscription } from "rxjs";
 
@@ -18,11 +18,25 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
     public readonly LABELS = LABELS;
     public readonly PATTERNS = PATTERNS;
 
+    @Input() public set talkId(value: string) {
+        this._talkId = value;
+        this.editMode = typeof this._talkId === "string" && this._talkId.length > 0;
+        this._talkEditorService.fetchTalk(this._talkId);
+    }
+
+    @Output() public readonly saved: EventEmitter<ITalk> = new EventEmitter<ITalk>();
+
     // todo: create service method getDefaultTalk
-    public talk: ITalk = { id: "", speakerIds: [], title: "", description: "" };
+    public talk: ITalk = {
+        description: "",
+        id: "",
+        speakerIds: [],
+        title: "",
+    };
 
-    public editMode: boolean = true;
+    public editMode: boolean = false;
 
+    private _talkId?: string;
     private _subs: Subscription[] = [];
 
     constructor(
@@ -37,10 +51,8 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
         this._subs = [
             this._activatedRoute.params
                 .subscribe((params: Params) => {
-                    if (typeof params.talkId === "string" && params.talkId.length > 0) {
-                        this._talkEditorService.fetchTalk(params.talkId);
-                    } else {
-                        this.editMode = false;
+                    if (typeof params.talkId === "string") {
+                        this.talkId = params.talkId;
                     }
                 }),
             this._talkEditorService.talk$
@@ -65,7 +77,9 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
 
     public save(): void {
         if (this.editMode) {
-            this._talkEditorService.updateTalk(this.talk);
+            this._talkEditorService.updateTalk(this.talk, () => {
+                this.saved.emit(this.talk);
+            });
         } else {
             this._talkEditorService.addTalk(this.talk);
         }

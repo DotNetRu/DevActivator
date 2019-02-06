@@ -19,6 +19,7 @@ import { SpeakerEditorComponent } from "./speaker-editor.component";
     ],
     exports: [
         SpeakerEditorComponent,
+        SpeakerImageUrlPipe,
     ],
     imports: [
         RouterModule.forChild([

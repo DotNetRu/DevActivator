@@ -49,11 +49,24 @@ export class HttpService {
         this._layoutService.showProgress();
     }
 
+    private requestEnded(): void {
+        if (this._requestsCount > 0) {
+            --this._requestsCount;
+            if (this._requestsCount === 0) {
+                this._layoutService.hideProgress();
+            }
+        } else {
+            console.warn("try decrease requestsCount below zero");
+        }
+    }
+
     private onSuccess<T>(res: T, cb: (x: T) => void): void {
+        this.requestEnded();
         cb(res);
     }
 
     private onError = (err: any, errCb?: (x: any) => void): void => {
+        this.requestEnded();
         console.error(err);
         if (errCb) {
             errCb(err);
@@ -63,13 +76,6 @@ export class HttpService {
     }
 
     private onComplete(): void {
-        if (this._requestsCount > 0) {
-            --this._requestsCount;
-            if (this._requestsCount === 0) {
-                this._layoutService.hideProgress();
-            }
-        } else {
-            console.warn("try decrease requestsCount below zero");
-        }
+        // ignore
     }
 }

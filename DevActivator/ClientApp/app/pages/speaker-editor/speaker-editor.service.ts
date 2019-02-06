@@ -50,7 +50,7 @@ export class SpeakerEditorService {
         );
     }
 
-    public updateSpeaker(speaker: ISpeaker): void {
+    public updateSpeaker(speaker: ISpeaker, cb: () => void): void {
         this._httpService.post<ISpeaker>(
             API_ENDPOINTS.updateSpeakerUrl,
             speaker,
@@ -58,6 +58,7 @@ export class SpeakerEditorService {
                 this._layoutService.showInfo("Спикер изменён успешно");
                 this._dataStore.speaker = x;
                 this._speaker$.next(Object.assign({}, this._dataStore.speaker));
+                cb();
             },
         );
     }

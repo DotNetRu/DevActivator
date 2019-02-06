@@ -8,7 +8,14 @@ export class DateConverterService {
         return moment(date).clone();
     }
 
+    public static toString(date?: Moment | null, format?: string): string {
+        if (!date) {
+            return "";
+        }
+        return date.format(format || "YYYY-MM-DDTHH:mm:ss");
+    }
+
     public static toApiString(date: Moment): string {
-        return date.format("YYYY-MM-DDTHH:mm:ss");
+        return date.toString();
     }
 }

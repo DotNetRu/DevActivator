@@ -1,12 +1,41 @@
-<ul>
-    <li [routerLinkActive]="['link-active']">
-        <a [routerLink]="['/home']">
-            Home
-        </a>
-    </li>
-    <li [routerLinkActive]="['link-active']">
-        <a [routerLink]="['/speaker-list']">
-            Speaker list
-        </a>
-    </li>
-</ul>
+<button mat-button
+        [matMenuTriggerFor]="createEntityMenu">
+    <mat-icon>fiber_new</mat-icon>
+    <span>Создать</span>
+</button>
+
+<a mat-button
+   [routerLink]="['/search']">
+    <mat-icon>search</mat-icon>
+    <span>Поиск</span>
+</a>
+
+<a mat-button
+   [routerLink]="['/timepad/SpbDotNet-30']">
+    <mat-icon>developer_mode</mat-icon>
+    <span>В разработке</span>
+</a>
+
+<mat-menu #createEntityMenu="matMenu">
+    <!-- todo: meetup -->
+    <a mat-menu-item
+       [routerLink]="['/speaker-creator']">
+        <mat-icon>person</mat-icon>
+        <span>Спикера</span>
+    </a>
+    <a mat-menu-item
+       [routerLink]="['/talk-creator']">
+        <mat-icon>speaker_notes</mat-icon>
+        <span>Доклад</span>
+    </a>
+    <a mat-menu-item
+       [routerLink]="['/venue-creator']">
+        <mat-icon>account_balance</mat-icon>
+        <span>Площадку</span>
+    </a>
+    <a mat-menu-item
+       [routerLink]="['/friend-creator']">
+        <mat-icon>loyalty</mat-icon>
+        <span>Друга</span>
+    </a>
+</mat-menu>

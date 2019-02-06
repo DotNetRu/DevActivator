@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { MatMenuModule } from "@angular/material";
+import { MatButtonModule, MatIconModule, MatMenuModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 
 import { NavMenuComponent } from "./navmenu.component";
@@ -13,8 +13,10 @@ import { NavMenuComponent } from "./navmenu.component";
     ],
     imports: [
         RouterModule,
+
+        MatButtonModule,
+        MatIconModule,
         MatMenuModule,
     ],
 })
-export class NavMenuModule {
-}
+export class NavMenuModule { }

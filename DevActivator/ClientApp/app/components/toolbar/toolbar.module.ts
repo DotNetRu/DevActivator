@@ -7,6 +7,7 @@ import {
     MatToolbarModule,
 } from "@angular/material";
 import { CoreModule } from "@dotnetru/core";
+import { NavMenuModule } from "@dotnetru/navmenu";
 
 import { ToolbarComponent } from "./toolbar.component";
 
@@ -19,6 +20,7 @@ import { ToolbarComponent } from "./toolbar.component";
     ],
     imports: [
         CoreModule,
+        NavMenuModule,
 
         MatButtonModule,
         MatIconModule,

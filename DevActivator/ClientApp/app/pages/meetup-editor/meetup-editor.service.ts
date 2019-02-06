@@ -75,10 +75,14 @@ export class MeetupEditorService {
         this._meetup$.next(Object.assign({}, this._dataStore.meetup));
     }
 
-    private toApiMeetup = (meetup: IMeetup): IApiMeetup => Object.assign({}, meetup, {
-        sessions: meetup.sessions.map((x: ISession) => Object.assign({}, x, {
-            endTime: DateConverterService.toApiString(x.endTime!),
-            startTime: DateConverterService.toApiString(x.startTime!),
-        })),
-    })
+    private toApiMeetup(meetup: IMeetup): IApiMeetup {
+        const res = Object.assign({}, meetup, {
+            sessions: meetup.sessions.map((x: ISession) => Object.assign({}, x, {
+                endTime: x.endTime ? DateConverterService.toApiString(x.endTime) : "",
+                startTime: x.startTime ? DateConverterService.toApiString(x.startTime) : "",
+            })),
+        });
+
+        return res;
+    }
 }

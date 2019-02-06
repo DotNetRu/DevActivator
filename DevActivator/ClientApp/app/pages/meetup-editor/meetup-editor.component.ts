@@ -103,16 +103,15 @@ export class MeetupEditorComponent implements OnInit, OnDestroy {
         this.meetup.venueId = row.id;
     }
 
-    public onTalkSelected(row: IAutocompleteRow, index: number): void {
-        this.meetup.sessions[index].talkId = row.id;
+    public onTalkSelected(talkId: string, index: number): void {
+        this.meetup.sessions[index].talkId = talkId;
     }
 
-    public removeSession(index: number): void {
+    public onRemoveSession(index: number): void {
         this.meetup.sessions.splice(index, 1);
     }
 
     public tryFillEndTime(session: ISession): void {
-        console.log("tryFillEndTime", session);
         if (session.startTime && !session.endTime) {
             session.endTime = session.startTime.clone().add(1, "hour");
         }
@@ -132,10 +131,6 @@ export class MeetupEditorComponent implements OnInit, OnDestroy {
             endTime = startTime.clone().add(1, "hour");
         }
 
-        this.meetup.sessions.push({
-            endTime,
-            startTime,
-            talkId: "",
-        });
+        this.meetup.sessions.push({ talkId: "", startTime, endTime });
     }
 }

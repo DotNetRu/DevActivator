@@ -1,0 +1,41 @@
+<mtp-talk-list [title]="title"
+               [iconName]="'delete_forever'"
+               [iconText]="'Убрать'"
+               [talkLink]="session"
+               (selected)="onTalkSelected($event)"
+               (iconClicked)="onRemoveSession()"></mtp-talk-list>
+
+<mat-form-field>
+    <mat-placeholder>Время начала</mat-placeholder>
+    <mat-datetimepicker-toggle [for]="startDatetimePicker"
+                               matSuffix></mat-datetimepicker-toggle>
+    <mat-datetimepicker #startDatetimePicker
+                        type="datetime"
+                        openOnFocus="true"
+                        timeInterval="5"
+                        [startView]="!session.startTime ? 'month' : 'clock'"></mat-datetimepicker>
+    <input matInput
+           [max]="session.endTime"
+           [matDatetimepicker]="startDatetimePicker"
+           required
+           autocomplete="false"
+           [(ngModel)]="session.startTime"
+           (ngModelChange)="tryFillEndTime()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-placeholder>Время окончания</mat-placeholder>
+    <mat-datetimepicker-toggle [for]="endDatetimePicker"
+                               matSuffix></mat-datetimepicker-toggle>
+    <mat-datetimepicker #endDatetimePicker
+                        type="datetime"
+                        openOnFocus="true"
+                        timeInterval="5"
+                        [startView]="!session.endTime ? 'month' : 'clock'"></mat-datetimepicker>
+    <input matInput
+           [min]="session.startTime"
+           [matDatetimepicker]="endDatetimePicker"
+           required
+           autocomplete="false"
+           [(ngModel)]="session.endTime">
+</mat-form-field>

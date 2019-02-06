@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { API_ENDPOINTS, DateConverterService, HttpService, LayoutService } from "@dotnetru/core";
+import { API_ENDPOINTS, DateConverterService, HttpService } from "@dotnetru/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
@@ -19,14 +19,13 @@ export class CompositeService {
     private _meetup$: BehaviorSubject<ICompositeMeetup | null> = new BehaviorSubject<ICompositeMeetup | null>(null);
 
     constructor(
-        private _layoutService: LayoutService,
         private _httpService: HttpService,
         private _router: Router,
     ) { }
 
-    public fetchMeetup(meetupId: string, descriptor: IRandomConcatModel): void {
+    public fetchMeetup(meetupId: string | undefined, descriptor: IRandomConcatModel, cb?: () => void): void {
         this._httpService.post<IApiCompositeMeetup>(
-            API_ENDPOINTS.getCompositeMeetupUrl.replace("{{meetupId}}", meetupId),
+            API_ENDPOINTS.getCompositeMeetupUrl.replace("{{meetupId}}", meetupId || ""),
             descriptor,
             (res: IApiCompositeMeetup) => {
                 const model: ICompositeMeetup = Object.assign({}, {
@@ -39,6 +38,9 @@ export class CompositeService {
                 });
 
                 this._meetup$.next(model);
+                if (cb) {
+                    cb();
+                }
             });
     }
 }

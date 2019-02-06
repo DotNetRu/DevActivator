@@ -15,9 +15,10 @@
     padding: 12px 0 !important;
 }
 
-.list-item-content {
+.session-content {
     display: flex;
     align-items: flex-start;
+    padding: 8px 0;
 }
 
 .nowrap {

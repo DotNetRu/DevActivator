@@ -1,97 +1,110 @@
 <div class="container">
-    <mat-list [disableRipple]="true">
-        <h3 mat-subheader>Программа встречи</h3>
-        <ng-container *ngFor="let sessoin of sessions; let i = index; let last = last">
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <div class="list-item-content">
-                    <span class="nowrap">
-                        <span>{{ sessoin.startTime | datetime : timeFormat }}</span>
-                        <span> - </span>
-                        <span>{{ sessoin.endTime | datetime : timeFormat }}</span>
-                    </span>
-                    <span class="session-description">
-                        <ng-container *ngFor="let ref of talks[sessoin.talkId].speakerIds">
-                            <span> {{ speakers[ref.speakerId].name }}</span>
-                            <span> ({{ speakers[ref.speakerId].companyName }})</span>
-                        </ng-container>
-                        <span> «{{ talks[sessoin.talkId].title }}»</span>
-                    </span>
-                    <button type="button"
-                            mat-icon-button
-                            (click)="deleteSession(i)">
-                        <mat-icon>delete_forever</mat-icon>
-                    </button>
-                </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item *ngIf="!last">
-                <span>
-                    <span>{{ sessoin.endTime | datetime : timeFormat }}</span>
-                    <span> - </span>
-                    <span>{{ sessions[i+1].startTime | datetime : timeFormat }}</span>
-                    <span> Перерыв</span>
-                </span>
-            </mat-list-item>
+    <h3 mat-subheader>Программа встречи</h3>
+    <mat-accordion>
+
+        <ng-container *ngFor="let session of sessions; let i = index; let last = last">
+
+            <mat-expansion-panel [expanded]="!session.talkId">
+                <mat-expansion-panel-header collapsedHeight="auto"
+                                            expandedHeight="auto">
+                    <mat-panel-title>
+                        <div class="session-content">
+                            <span>
+                                <span class="nowrap">
+                                    <span>{{ session.startTime | datetime : timeFormat }}</span>
+                                    <span> - </span>
+                                    <span>{{ session.endTime | datetime : timeFormat }}</span>
+                                </span>
+                                <span class="session-description">
+                                    <ng-container *ngIf="talks[session.talkId]">
+                                        <ng-container *ngFor="let ref of talks[session.talkId].speakerIds">
+                                            <span> {{ speakers[ref.speakerId].name }}</span>
+                                            <span> ({{ speakers[ref.speakerId].companyName }})</span>
+                                        </ng-container>
+                                        <span> «{{ talks[session.talkId].title }}»</span>
+                                    </ng-container>
+                                </span>
+                            </span>
+                            <button type="button"
+                                    mat-icon-button
+                                    (click)="deleteSession(i)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <ng-template matExpansionPanelContent>
+                    <mtp-session-editor [title]="(!session.talkId ? 'Добавление' : 'Редактирование') + ' слота'"
+                                        [session]="session"
+                                        (talkSelected)="onTalkSelected($event, i)"
+                                        (removeSession)="deleteSession(i)"></mtp-session-editor>
+                    <!-- <pre>{{ session | json }}</pre> -->
+                </ng-template>
+            </mat-expansion-panel>
+
         </ng-container>
-        <mat-list-item>
-            <button type="button"
-                    color="primary"
-                    mat-button>
-                <mat-icon>add</mat-icon>
-                <span>Добавить слот</span>
-            </button>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-    </mat-list>
+
+    </mat-accordion>
+
+    <button type="button"
+            color="primary"
+            mat-button
+            (click)="addSession()">
+        <mat-icon>add</mat-icon>
+        <span>Добавить слот</span>
+    </button>
+
     <p>После этих вдохновляющих речей приглашаем всех желающих в бар для обсуждения накопившихся вопросов и идей!</p>
     <h3>Доклады</h3>
     <mat-accordion>
 
-        <ng-container *ngFor="let sessoin of sessions; let sessionIx = index">
-            <ng-container *ngFor="let talk of [talks[sessoin.talkId]]">
+        <ng-container *ngFor="let session of sessions; let sessionIx = index">
+            <ng-container *ngIf="talks[session.talkId]">
+                <ng-container *ngFor="let talk of [talks[session.talkId]]">
 
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header collapsedHeight="auto"
-                                                expandedHeight="auto">
-                        <mat-panel-title>
-                            <h4>{{ sessionIx + 1 }}. «{{ talk.title }}»</h4>
-                            <p>{{ talk.description }}</p>
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header collapsedHeight="auto"
+                                                    expandedHeight="auto">
+                            <mat-panel-title>
+                                <h4>{{ sessionIx + 1 }}. «{{ talk.title }}»</h4>
+                                <p>{{ talk.description }}</p>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
-                    <ng-template matExpansionPanelContent>
-                        <mtp-talk-editor [talkId]="talk.id"
-                                         (saved)="onTalkSaved($event)"></mtp-talk-editor>
-                        <!-- <pre>{{ talk | json }}</pre> -->
-                    </ng-template>
-                </mat-expansion-panel>
+                        <ng-template matExpansionPanelContent>
+                            <mtp-talk-editor [talkId]="talk.id"
+                                             (saved)="onTalkSaved($event)"></mtp-talk-editor>
+                            <!-- <pre>{{ talk | json }}</pre> -->
+                        </ng-template>
+                    </mat-expansion-panel>
 
-                <ng-container *ngFor="let ref of talk.speakerIds">
-                    <ng-container *ngFor="let speaker of [speakers[ref.speakerId]]">
+                    <ng-container *ngFor="let ref of talk.speakerIds">
+                        <ng-container *ngFor="let speaker of [speakers[ref.speakerId]]">
 
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header collapsedHeight="auto"
-                                                        expandedHeight="auto">
-                                <mat-panel-title>
-                                    <h4>{{ speaker.name }}</h4>
-                                    <div class="about">
-                                        <div>
-                                            <img class="avatar"
-                                                 [src]="speaker.id | speakerImageUrl">
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header collapsedHeight="auto"
+                                                            expandedHeight="auto">
+                                    <mat-panel-title>
+                                        <h4>{{ speaker.name }}</h4>
+                                        <div class="about">
+                                            <div>
+                                                <img class="avatar"
+                                                     [src]="speaker.id | speakerImageUrl">
+                                            </div>
+                                            <p>{{ speaker.description }}</p>
                                         </div>
-                                        <p>{{ speaker.description }}</p>
-                                    </div>
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
 
-                            <ng-template matExpansionPanelContent>
-                                <mtp-speaker-editor [speakerId]="speaker.id"
-                                                    (saved)="onSpeakerSaved($event, talk)"></mtp-speaker-editor>
-                                <!-- <pre>{{ speaker | json }}</pre> -->
-                            </ng-template>
-                        </mat-expansion-panel>
+                                <ng-template matExpansionPanelContent>
+                                    <mtp-speaker-editor [speakerId]="speaker.id"
+                                                        (saved)="onSpeakerSaved($event, talk)"></mtp-speaker-editor>
+                                    <!-- <pre>{{ speaker | json }}</pre> -->
+                                </ng-template>
+                            </mat-expansion-panel>
 
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </ng-container>

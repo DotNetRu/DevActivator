@@ -95,53 +95,11 @@
                     (selected)="onVenueSelected($event)"></mtp-venue-list>
 
     <mat-card>
-        <ng-container *ngFor="let session of meetup.sessions; let idx = index">
-
-            <mtp-talk-list [title]="'Сессия №' + (idx+1)"
-                           [iconName]="'delete_forever'"
-                           [iconText]="'Убрать'"
-                           [talkLink]="session"
-                           (selected)="onTalkSelected($event, idx)"
-                           (iconClicked)="removeSession(idx)"></mtp-talk-list>
-
-            <mat-form-field>
-                <mat-placeholder>Время начала</mat-placeholder>
-                <mat-datetimepicker-toggle [for]="startDatetimePicker"
-                                           matSuffix></mat-datetimepicker-toggle>
-                <mat-datetimepicker #startDatetimePicker
-                                    type="datetime"
-                                    openOnFocus="true"
-                                    timeInterval="5"
-                                    [startView]="!session.startTime ? 'month' : 'clock'"></mat-datetimepicker>
-                <input matInput
-                       [name]="'startTime'+idx"
-                       [max]="session.endTime"
-                       [matDatetimepicker]="startDatetimePicker"
-                       required
-                       autocomplete="false"
-                       [(ngModel)]="session.startTime"
-                       (ngModelChange)="tryFillEndTime(session)">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-placeholder>Время окончания</mat-placeholder>
-                <mat-datetimepicker-toggle [for]="endDatetimePicker"
-                                           matSuffix></mat-datetimepicker-toggle>
-                <mat-datetimepicker #endDatetimePicker
-                                    type="datetime"
-                                    openOnFocus="true"
-                                    timeInterval="5"
-                                    [startView]="!session.endTime ? 'month' : 'clock'"></mat-datetimepicker>
-                <input matInput
-                       [name]="'endTime'+idx"
-                       [min]="session.startTime"
-                       [matDatetimepicker]="endDatetimePicker"
-                       required
-                       autocomplete="false"
-                       [(ngModel)]="session.endTime">
-            </mat-form-field>
-
-        </ng-container>
+        <mtp-session-editor *ngFor="let session of meetup.sessions; let idx = index"
+                            [title]="'Сессия №' + (idx+1)"
+                            [session]="session"
+                            (talkSelected)="onTalkSelected($event, idx)"
+                            (removeSession)="onRemoveSession(idx)"></mtp-session-editor>
         <button type="button"
                 color="primary"
                 mat-button

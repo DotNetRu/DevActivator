@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { LayoutService } from "@dotnetru/core";
 import { Subscription } from "rxjs";
-import { Community } from "../meetup-editor/enums";
-import { IMeetup, ISession } from "../meetup-editor/interfaces";
-import { MeetupEditorService } from "../meetup-editor/meetup-editor.service";
+
+import { Moment } from "moment";
+import { ISession } from "../meetup-editor/interfaces";
 import { ITalk } from "../talk-editor/interfaces";
 import { ISpeaker } from "./../speaker-editor/interfaces";
 import { ICompositeMeetup, IMap, IRandomConcatModel } from "./interfaces";
@@ -41,6 +42,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     constructor(
         private _compositeService: CompositeService,
+        private _layoutService: LayoutService,
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
     ) { }
@@ -67,15 +69,50 @@ export class TimepadComponent implements OnInit, OnDestroy {
         this._subs.forEach((x) => x.unsubscribe);
     }
 
+    public addSession(talkId: string = ""): void {
+        // todo: remove code duplication, see meetup-editor.component.ts
+        let startTime: Moment | undefined;
+        if (this.sessions.length > 0) {
+            const lastSession = this.sessions[this.sessions.length - 1];
+            if (lastSession.endTime) {
+                startTime = lastSession.endTime.clone().add(30, "minutes");
+            }
+        }
+
+        let endTime: Moment | undefined;
+        if (startTime) {
+            endTime = startTime.clone().add(1, "hour");
+        }
+
+        this.sessions.push({ talkId, startTime, endTime });
+    }
+
     public deleteSession(index: number): void {
         this.sessions.splice(index, 1);
+    }
+
+    public onTalkSelected(talkId: string, index: number): void {
+        const descriptor = this.descriptor;
+        if (descriptor.talkIds.some((x) => x === talkId)) {
+            this.sessions[index].talkId = talkId;
+        } else {
+            descriptor.talkIds.push(talkId);
+            this._compositeService.fetchMeetup(this._meetupId, descriptor, () => {
+                const session: ISession | undefined = this.sessions[index];
+                if (session) {
+                    this.sessions[index].talkId = talkId;
+                } else {
+                    this.addSession(talkId);
+                }
+            });
+        }
     }
 
     public onTalkSaved(talk: ITalk): void {
         if (talk.speakerIds.some((x) => {
             return !this.speakers[x.speakerId];
         })) {
-            this._compositeService.fetchMeetup(this.meetupId, this.descriptor);
+            this._compositeService.fetchMeetup(this._meetupId, this.descriptor);
         } else {
             this.talks[talk.id] = talk;
         }

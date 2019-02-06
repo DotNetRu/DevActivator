@@ -20,16 +20,19 @@ import { MatDatetimepickerModule } from "@mat-datetimepicker/core";
 import { MatMomentDatetimeModule } from "@mat-datetimepicker/moment";
 
 import { MeetupEditorComponent } from "./meetup-editor.component";
+import { SessionEditorComponent } from "./session-editor.component";
 
 @NgModule({
     declarations: [
         MeetupEditorComponent,
+        SessionEditorComponent,
     ],
     entryComponents: [
         MeetupEditorComponent,
     ],
     exports: [
         MeetupEditorComponent,
+        SessionEditorComponent,
     ],
     imports: [
         RouterModule.forChild([

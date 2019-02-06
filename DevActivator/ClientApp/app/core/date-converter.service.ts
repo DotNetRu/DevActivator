@@ -12,10 +12,11 @@ export class DateConverterService {
         if (!date) {
             return "";
         }
+
         return date.format(format || "YYYY-MM-DDTHH:mm:ss");
     }
 
     public static toApiString(date: Moment): string {
-        return date.toString();
+        return DateConverterService.toString(date);
     }
 }

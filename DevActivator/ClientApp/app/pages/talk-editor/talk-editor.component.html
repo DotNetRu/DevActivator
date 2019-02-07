@@ -2,7 +2,8 @@
       class="base-component-container">
 
     <div class="actions">
-        <button type="button"
+        <button *ngIf="!isDialog"
+                type="button"
                 color="primary"
                 mat-icon-button
                 (click)="goBack()">

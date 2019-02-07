@@ -1,17 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { MatDialogRef } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LayoutService } from "@dotnetru/core";
 
 import { ISpeaker } from "./interfaces";
 import { SpeakerEditorComponent } from "./speaker-editor.component";
 import { SpeakerEditorService } from "./speaker-editor.service";
-
-export interface IDialogData {
-    id?: string;
-}
-
-const successDialogResult: true = true;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +17,6 @@ const successDialogResult: true = true;
 export class SpeakerEditorDialogComponent extends SpeakerEditorComponent {
     constructor(
         private _dialogRef: MatDialogRef<SpeakerEditorDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) private _data: IDialogData,
         speakerEditorService: SpeakerEditorService,
         layoutService: LayoutService,
         activatedRoute: ActivatedRoute,

@@ -47,6 +47,8 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
 
     public editMode: boolean = false;
 
+    protected isDialog: boolean = false;
+
     private _talkId?: string;
     private _subs: Subscription[] = [];
 
@@ -87,13 +89,16 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
         }
     }
 
-    public save(): void {
+    public save(cb?: (talk: ITalk) => void): void {
         if (this.editMode) {
             this._talkEditorService.updateTalk(this.talk, () => {
                 this.saved.emit(this.talk);
             });
         } else {
-            this._talkEditorService.addTalk(this.talk);
+            cb = cb || ((talk: ITalk) => {
+                this._router.navigateByUrl(`talk-editor${talk ? `/${talk.id}` : ""}`);
+            });
+            this._talkEditorService.addTalk(this.talk, cb);
         }
     }
 

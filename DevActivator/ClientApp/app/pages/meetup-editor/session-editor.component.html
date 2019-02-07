@@ -39,3 +39,13 @@
            autocomplete="false"
            [(ngModel)]="session.endTime">
 </mat-form-field>
+
+<div class="actions__right">
+    <button type="button"
+            color="primary"
+            mat-button
+            (click)="createTalk()">
+        <mat-icon>fiber_new</mat-icon>
+        <span>Создать доклад</span>
+    </button>
+</div>

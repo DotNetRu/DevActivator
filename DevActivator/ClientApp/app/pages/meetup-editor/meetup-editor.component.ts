@@ -104,7 +104,13 @@ export class MeetupEditorComponent implements OnInit, OnDestroy {
     }
 
     public onTalkSelected(talkId: string, index: number): void {
-        this.meetup.sessions[index].talkId = talkId;
+        this.meetup.sessions[index] = Object.assign(
+            {},
+            this.meetup.sessions[index],
+            {
+                talkId,
+            },
+        );
     }
 
     public onRemoveSession(index: number): void {

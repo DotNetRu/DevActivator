@@ -1,9 +1,10 @@
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LayoutService } from "@dotnetru/core";
+import { Moment } from "moment";
 import { Subscription } from "rxjs";
 
-import { Moment } from "moment";
 import { ISession } from "../meetup-editor/interfaces";
 import { ITalk } from "../talk-editor/interfaces";
 import { ISpeaker } from "./../speaker-editor/interfaces";
@@ -124,5 +125,9 @@ export class TimepadComponent implements OnInit, OnDestroy {
         if (!hasRef) {
             talk.speakerIds.push({ speakerId: speaker.id });
         }
+    }
+
+    public drop(event: CdkDragDrop<ISession[]>) {
+        moveItemInArray(this.sessions, event.previousIndex, event.currentIndex);
     }
 }

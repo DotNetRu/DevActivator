@@ -1,28 +1,34 @@
- html,
- body {
-     height: 100%;
-     margin: 0;
-     padding: 0;
- }
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
- .base-component-container {
-     display: block;
-     height: 100%;
-     overflow: auto;
-     max-width: 640px;
-     margin: 0 auto;
- }
+.base-component-container {
+    display: block;
+    height: 100%;
+    overflow: auto;
+    max-width: 640px;
+    margin: 0 auto;
+}
 
- .full-width {
-     width: 100%;
- }
+.full-width {
+    width: 100%;
+}
 
- .full-height {
-     height: 100%;
- }
+.full-height {
+    height: 100%;
+}
 
- .actions__space-between {
-     width: 100%;
-     display: flex;
-     justify-content: space-between;
- }
+.actions__space-between {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.actions__right {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}

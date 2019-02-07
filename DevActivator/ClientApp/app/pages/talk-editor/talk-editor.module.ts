@@ -7,17 +7,21 @@ import { CoreModule } from "@dotnetru/core";
 import { SpeakerEditorModule } from "@dotnetru/pages/speaker-editor";
 import { SpeakerListModule } from "@dotnetru/speaker-list";
 
+import { TalkEditorDialogComponent } from "./talk-editor-dialog.component";
 import { TalkEditorComponent } from "./talk-editor.component";
 
 @NgModule({
     declarations: [
         TalkEditorComponent,
+        TalkEditorDialogComponent,
     ],
     entryComponents: [
         TalkEditorComponent,
+        TalkEditorDialogComponent,
     ],
     exports: [
         TalkEditorComponent,
+        TalkEditorDialogComponent,
     ],
     imports: [
         RouterModule.forChild([

@@ -1,3 +1,4 @@
+import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatButtonModule, MatExpansionModule, MatIconModule, MatListModule } from "@angular/material";
@@ -26,6 +27,7 @@ import { TimepadComponent } from "./timepad.component";
 
         CoreModule,
 
+        DragDropModule,
         MatButtonModule,
         MatExpansionModule,
         MatIconModule,

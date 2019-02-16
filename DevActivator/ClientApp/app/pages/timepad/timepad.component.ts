@@ -129,5 +129,6 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     public drop(event: CdkDragDrop<ISession[]>) {
         moveItemInArray(this.sessions, event.previousIndex, event.currentIndex);
+        // todo: normalize times
     }
 }

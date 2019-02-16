@@ -46,3 +46,7 @@ p {
 .mat-expansion-panel-header-title {
     flex-direction: column;
 }
+
+.handle {
+    padding-right: 4px;
+}

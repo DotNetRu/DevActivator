@@ -62,7 +62,6 @@ namespace DevActivator.Meetups.BL.Extensions
                 Id = original.Id,
                 Name = meetup.Name,
                 CommunityId = meetup.CommunityId.ToString(),
-                Date = original.Date,
                 FriendIds = meetup.FriendIds.Select(x => x.FriendId).ToList(),
                 VenueId = meetup.VenueId,
                 Sessions = meetup.Sessions.Select(x => new Session
@@ -82,7 +81,6 @@ namespace DevActivator.Meetups.BL.Extensions
                             DateTimeStyles.AdjustToUniversal)
                         .Subtract(meetup.VenueId.GetCity().GetTimeZone())
                 }).ToList(),
-                TalkIds = meetup.Sessions.Select(x => x.TalkId).ToList(),
             };
 
         private static Community GetCommunity(this string id)

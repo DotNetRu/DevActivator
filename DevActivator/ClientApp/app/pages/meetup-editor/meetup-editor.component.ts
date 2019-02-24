@@ -87,8 +87,8 @@ export class MeetupEditorComponent implements OnInit, OnDestroy {
         this._meetupEditorService.reset();
     }
 
-    public onFriendSelected(row: IAutocompleteRow, index: number): void {
-        this.meetup.friendIds[index] = { friendId: row.id };
+    public onFriendSelected(friendId: string, index: number): void {
+        this.meetup.friendIds[index] = { friendId };
     }
 
     public removeFriend(index: number): void {

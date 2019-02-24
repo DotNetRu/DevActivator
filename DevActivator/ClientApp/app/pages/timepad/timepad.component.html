@@ -1,7 +1,73 @@
 <div class="container">
+    <h3>Партнеры</h3>
+    <mat-accordion cdkDropList
+                   (cdkDropListDropped)="onFriendDrop($event)">
+        <ng-container *ngFor="let friend of friends; let i = index">
+            <mat-expansion-panel [expanded]="!friend.id"
+                                 cdkDrag>
+
+                <mat-expansion-panel-header collapsedHeight="auto"
+                                            expandedHeight="auto">
+
+                    <mat-panel-title>
+                        <div class="friend-content">
+                            <span class="handle"
+                                  cdkDragHandle>
+                                <svg width="24px"
+                                     fill="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path
+                                          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                                    </path>
+                                    <path d="M0 0h24v24H0z"
+                                          fill="none"></path>
+                                </svg>
+                            </span>
+                            <img class="avatar"
+                                 [src]="friend.id | friendImageUrl">
+                            <span>«{{ friend.name }}»</span>
+                            <span>
+                                <a target="_blank"
+                                   [href]="friend.url"
+                                   mat-button
+                                   onclick="event.stopPropagation()">
+                                    <mat-icon>public</mat-icon>
+                                    <span>На сайт</span>
+                                </a>
+                                <button type="button"
+                                        mat-icon-button
+                                        (click)="deleteFriend($event, i)">
+                                    <mat-icon>delete_forever</mat-icon>
+                                </button>
+                            </span>
+                        </div>
+                    </mat-panel-title>
+
+                </mat-expansion-panel-header>
+
+                <ng-template matExpansionPanelContent>
+                    <div>
+                        <mtp-friend-editor [suppressNavigation]="true"
+                                           [friendId]="friend.id"
+                                           (saved)="onFriendSaved($event, i)"></mtp-friend-editor>
+                    </div>
+                    <!-- <pre>{{ friend | json }}</pre> -->
+                </ng-template>
+
+            </mat-expansion-panel>
+        </ng-container>
+    </mat-accordion>
+
+    <mtp-friend-list [title]="'Добавить друга'"
+                     [iconName]="'fiber_new'"
+                     [iconText]="'Создать друга'"
+                     [friendLink]="{ friendId: '' }"
+                     (selected)="onFriendSelected($event)"
+                     (iconClicked)="createFriend()"></mtp-friend-list>
+
     <h3 mat-subheader>Программа встречи</h3>
     <mat-accordion cdkDropList
-                   (cdkDropListDropped)="drop($event)">
+                   (cdkDropListDropped)="onSessionDrop($event)">
 
         <ng-container *ngFor="let session of sessions; let i = index; let last = last">
 
@@ -16,7 +82,9 @@
                                 <svg width="24px"
                                      fill="currentColor"
                                      viewBox="0 0 24 24">
-                                    <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                                    <path
+                                          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+                                    </path>
                                     <path d="M0 0h24v24H0z"
                                           fill="none"></path>
                                 </svg>

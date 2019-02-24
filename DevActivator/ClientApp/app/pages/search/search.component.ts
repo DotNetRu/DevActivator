@@ -36,8 +36,8 @@ export class SearchPageComponent {
         this._router.navigateByUrl(`venue-creator`);
     }
 
-    public onFriendSelected(friend: IAutocompleteRow): void {
-        this._router.navigateByUrl(`friend-editor/${friend.id}`);
+    public onFriendSelected(friendId: string): void {
+        this._router.navigateByUrl(`friend-editor/${friendId}`);
     }
 
     public addFriend(): void {

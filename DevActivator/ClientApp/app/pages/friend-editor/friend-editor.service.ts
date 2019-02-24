@@ -8,6 +8,10 @@ import { IFriend } from "./interfaces";
 
 @Injectable()
 export class FriendEditorService {
+    public static getDefaultFriend(): IFriend {
+        return { id: "", name: "", url: "", description: "" };
+    }
+
     private _friend$: BehaviorSubject<IFriend | null> = new BehaviorSubject<IFriend | null>(null);
     private _dataStore = {
         friend: {} as IFriend,
@@ -39,25 +43,26 @@ export class FriendEditorService {
             });
     }
 
-    public addFriend(friend: IFriend): void {
+    public addFriend(friend: IFriend, cb: (friend: IFriend) => void): void {
         this._httpService.post<IFriend>(
             API_ENDPOINTS.addFriendUrl,
             friend,
-            (x: IFriend) => {
-                this._layoutService.showInfo("Спикер добавлен успешно");
-                this._router.navigateByUrl(`friend-editor${friend ? `/${friend.id}` : ""}`);
+            (res: IFriend) => {
+                this._layoutService.showInfo("Друг добавлен успешно");
+                cb(res);
             },
         );
     }
 
-    public updateFriend(friend: IFriend): void {
+    public updateFriend(friend: IFriend, cb: () => void): void {
         this._httpService.post<IFriend>(
             API_ENDPOINTS.updateFriendUrl,
             friend,
             (x: IFriend) => {
-                this._layoutService.showInfo("Спикер изменён успешно");
+                this._layoutService.showInfo("Друг изменён успешно");
                 this._dataStore.friend = x;
                 this._friend$.next(Object.assign({}, this._dataStore.friend));
+                cb();
             },
         );
     }

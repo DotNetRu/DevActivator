@@ -1,13 +1,14 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { LayoutService } from "@dotnetru/core";
 import { Moment } from "moment";
 import { Subscription } from "rxjs";
 
+import { FriendEditorService } from "../friend-editor/friend-editor.service";
+import { IFriend } from "../friend-editor/interfaces";
 import { ISession } from "../meetup-editor/interfaces";
+import { ISpeaker } from "../speaker-editor/interfaces";
 import { ITalk } from "../talk-editor/interfaces";
-import { ISpeaker } from "./../speaker-editor/interfaces";
 import { ICompositeMeetup, IMap, IRandomConcatModel } from "./interfaces";
 import { CompositeService } from "./timepad.service";
 
@@ -24,6 +25,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     public sessions: ISession[] = [];
     public talks: IMap<ITalk> = {};
     public speakers: IMap<ISpeaker> = {};
+    public friends: IFriend[] = [];
 
     @Input() set meetupId(value: string) {
         this._meetupId = value;
@@ -35,6 +37,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     private get descriptor(): IRandomConcatModel {
         return {
+            friendIds: this.friends.map((x) => x.id),
             sessions: this.sessions,
             speakerIds: Object.keys(this.speakers),
             talkIds: Object.keys(this.talks),
@@ -43,7 +46,6 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     constructor(
         private _compositeService: CompositeService,
-        private _layoutService: LayoutService,
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
     ) { }
@@ -61,6 +63,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
                     this.sessions = data.sessions;
                     this.talks = data.talks;
                     this.speakers = data.speakers;
+                    this.friends = data.friends;
                     this._changeDetectorRef.detectChanges();
                 }),
         ];
@@ -127,8 +130,31 @@ export class TimepadComponent implements OnInit, OnDestroy {
         }
     }
 
-    public drop(event: CdkDragDrop<ISession[]>) {
-        moveItemInArray(this.sessions, event.previousIndex, event.currentIndex);
-        // todo: normalize times
+    public onSessionDrop(event: CdkDragDrop<ISession[]>): void {
+        const tempTalkId: string = this.sessions[event.previousIndex].talkId;
+        this.sessions[event.previousIndex].talkId = this.sessions[event.currentIndex].talkId;
+        this.sessions[event.currentIndex].talkId = tempTalkId;
+    }
+
+    public deleteFriend(ev: Event, index: number): void {
+        this.friends.splice(index, 1);
+    }
+
+    public onFriendDrop(event: CdkDragDrop<ISession[]>): void {
+        moveItemInArray(this.friends, event.previousIndex, event.currentIndex);
+    }
+
+    public onFriendSaved(friend: IFriend, index: number): void {
+        this.friends[index] = friend;
+    }
+
+    public onFriendSelected(friendId: string): void {
+        const descriptor = this.descriptor;
+        descriptor.friendIds.push(friendId);
+        this._compositeService.fetchMeetup(this._meetupId, descriptor);
+    }
+
+    public createFriend(): void {
+        this.friends.push(FriendEditorService.getDefaultFriend());
     }
 }

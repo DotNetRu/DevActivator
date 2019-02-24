@@ -1,8 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FILE_SIZES, LABELS, LayoutService, MIME_TYPES, PATTERNS } from "@dotnetru/core";
 import { IAcceptedFile, IRejectedFile, RejectionReason } from "@dotnetru/shared/file-dialog";
 import { Subscription } from "rxjs";
+import { filter } from "rxjs/operators";
 
 import { FriendEditorService } from "./friend-editor.service";
 import { IFriend } from "./interfaces";
@@ -20,10 +30,23 @@ export class FriendEditorComponent implements OnInit, OnDestroy {
     public readonly AVATAR_MIME_TYPES = MIME_TYPES.PNG;
     public readonly AVATAR_MAX_SIZE = FILE_SIZES.AVATAR_MAX_SIZE;
 
-    // todo: create service method getDefaultFriend
-    public friend: IFriend = { id: "", name: "", url: "", description: "" };
+    public friend: IFriend = FriendEditorService.getDefaultFriend();
 
-    public editMode: boolean = true;
+    @Input() public suppressNavigation: boolean = false;
+
+    @Input()
+    public set friendId(value: string) {
+        if (typeof value === "string" && value.length > 0) {
+            this._friendEditorService.fetchFriend(value);
+            this.editMode = true;
+        } else {
+            this.editMode = false;
+        }
+    }
+
+    @Output() public readonly saved: EventEmitter<IFriend> = new EventEmitter<IFriend>();
+
+    public editMode: boolean = false;
 
     private _subs: Subscription[] = [];
 
@@ -38,13 +61,8 @@ export class FriendEditorComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this._subs = [
             this._activatedRoute.params
-                .subscribe((params) => {
-                    if (typeof params.friendId === "string" && params.friendId.length > 0) {
-                        this._friendEditorService.fetchFriend(params.friendId);
-                    } else {
-                        this.editMode = false;
-                    }
-                }),
+                .pipe(filter((x) => x.friendId))
+                .subscribe((params) => this.friendId = params.friendId),
             this._friendEditorService.friend$
                 .subscribe((friend: IFriend) => {
                     this.friend = friend;
@@ -65,11 +83,23 @@ export class FriendEditorComponent implements OnInit, OnDestroy {
         }
     }
 
-    public save(): void {
+    public save(cb?: (friend: IFriend) => void): void {
         if (this.editMode) {
-            this._friendEditorService.updateFriend(this.friend);
+            this._friendEditorService.updateFriend(this.friend, () => {
+                this.saved.emit(this.friend);
+            });
         } else {
-            this._friendEditorService.addFriend(this.friend);
+
+            if (!cb) {
+                cb = ((friend: IFriend) => {
+                    this.saved.emit(friend);
+                    if (!this.suppressNavigation) {
+                        this._router.navigateByUrl(`friend-editor${friend ? `/${friend.id}` : ""}`);
+                    }
+                });
+            }
+
+            this._friendEditorService.addFriend(this.friend, cb);
         }
     }
 

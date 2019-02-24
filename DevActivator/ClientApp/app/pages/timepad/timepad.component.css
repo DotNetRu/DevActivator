@@ -15,10 +15,12 @@
     padding: 12px 0 !important;
 }
 
-.session-content {
+.session-content,
+.friend-content {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: 8px 0;
+    justify-content: space-between;
 }
 
 .nowrap {

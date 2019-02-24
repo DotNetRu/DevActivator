@@ -33,7 +33,7 @@ export class FriendListComponent implements OnInit, OnDestroy {
 
     @ViewChild("autocomplete") public autocomplete!: AutocompleteComponent;
 
-    @Output() public readonly selected: EventEmitter<IAutocompleteRow> = new EventEmitter<IAutocompleteRow>();
+    @Output() public readonly selected: EventEmitter<string> = new EventEmitter<string>();
     @Output() public readonly iconClicked: EventEmitter<void> = new EventEmitter<void>();
 
     public friends: IAutocompleteRow[] = [];
@@ -75,7 +75,7 @@ export class FriendListComponent implements OnInit, OnDestroy {
     }
 
     public onSelected(row: IAutocompleteRow): void {
-        this.selected.emit(row);
+        this.selected.emit(row.id);
     }
 
     public onIconClicked(): void {

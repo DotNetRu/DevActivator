@@ -19,6 +19,7 @@ import { FriendImageUrlPipe } from "./pipes";
     ],
     exports: [
         FriendEditorComponent,
+        FriendImageUrlPipe,
     ],
     imports: [
         RouterModule.forChild([

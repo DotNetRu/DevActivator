@@ -10,5 +10,7 @@ namespace DevActivator.Models
         public List<string> TalkIds { get; set; }
 
         public List<string> SpeakerIds { get; set; }
+
+        public List<string> FriendIds { get; set; }
     }
 }

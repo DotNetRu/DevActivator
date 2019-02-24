@@ -74,13 +74,14 @@ namespace DevActivator.Controllers
             }
 
             // todo: venue
-            // todo: id
-            // todo: name
             // todo: community
 
             return new CompositeModel
             {
                 Id = meetup?.Id,
+                Name = string.IsNullOrWhiteSpace(descriptor.Name) 
+                    ? meetup?.Name
+                    : descriptor.Name,
                 Sessions = meetup?.Sessions,
                 Talks = talks,
                 Speakers = speakers,

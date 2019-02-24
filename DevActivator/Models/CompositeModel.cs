@@ -8,6 +8,8 @@ namespace DevActivator.Models
     {
         public string Id { get; set; }
 
+        public string Name { get; set; }
+
         public List<SessionVm> Sessions { get; set; }
 
         public Dictionary<string, TalkVm> Talks { get; set; }

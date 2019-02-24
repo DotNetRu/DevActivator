@@ -28,6 +28,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     // todo: remove readonly, implement false
     public readonly editMode: boolean = true;
 
+    public name: string | undefined = undefined;
     public sessions: ISession[] = [];
     public talks: IMap<ITalk> = {};
     public speakers: IMap<ISpeaker> = {};
@@ -47,7 +48,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     private get descriptor(): IRandomConcatModel {
         return {
-            id: this._meetupId,
+            name: this.name,
             friendIds: this.friends.map((x) => x.id),
             sessions: this.sessions,
             speakerIds: Object.keys(this.speakers),
@@ -72,6 +73,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
             this._compositeService.meetup$
                 .subscribe((data: ICompositeMeetup) => {
                     this._meetupId = data.id;
+                    this.name = data.name;
                     this.sessions = data.sessions;
                     this.talks = data.talks;
                     this.speakers = data.speakers;

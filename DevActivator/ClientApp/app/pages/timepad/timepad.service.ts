@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { API_ENDPOINTS, DateConverterService, HttpService } from "@dotnetru/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
@@ -20,7 +19,6 @@ export class CompositeService {
 
     constructor(
         private _httpService: HttpService,
-        private _router: Router,
     ) { }
 
     public fetchMeetup(meetupId: string | undefined, descriptor: IRandomConcatModel, cb?: () => void): void {
@@ -30,6 +28,7 @@ export class CompositeService {
             (res: IApiCompositeMeetup) => {
                 const model: ICompositeMeetup = Object.assign({}, {
                     id: meetupId,
+                    name: res.name,
                     friends: res.friends,
                     sessions: res.sessions.map((x: IApiSession) => Object.assign({}, x, {
                         endTime: DateConverterService.toMoment(x.endTime),

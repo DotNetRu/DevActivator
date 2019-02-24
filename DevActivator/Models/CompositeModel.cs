@@ -6,6 +6,8 @@ namespace DevActivator.Models
 {
     public class CompositeModel
     {
+        public string Id { get; set; }
+
         public List<SessionVm> Sessions { get; set; }
 
         public Dictionary<string, TalkVm> Talks { get; set; }

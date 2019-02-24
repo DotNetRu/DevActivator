@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { LABELS, PATTERNS } from "@dotnetru/core";
 import { Moment } from "moment";
 import { Subscription } from "rxjs";
 
@@ -20,14 +21,23 @@ import { CompositeService } from "./timepad.service";
     templateUrl: "timepad.component.html",
 })
 export class TimepadComponent implements OnInit, OnDestroy {
+    public readonly LABELS = LABELS;
+    public readonly PATTERNS = PATTERNS;
     public readonly timeFormat: string = "HH:mm";
+
+    // todo: remove readonly, implement false
+    public readonly editMode: boolean = true;
 
     public sessions: ISession[] = [];
     public talks: IMap<ITalk> = {};
     public speakers: IMap<ISpeaker> = {};
     public friends: IFriend[] = [];
 
-    @Input() set meetupId(value: string) {
+    @Input()
+    get meetupId() {
+        return this._meetupId || "";
+    }
+    set meetupId(value: string) {
         this._meetupId = value;
         this._compositeService.fetchMeetup(this._meetupId, this.descriptor);
     }
@@ -37,6 +47,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     private get descriptor(): IRandomConcatModel {
         return {
+            id: this._meetupId,
             friendIds: this.friends.map((x) => x.id),
             sessions: this.sessions,
             speakerIds: Object.keys(this.speakers),
@@ -60,6 +71,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
                 }),
             this._compositeService.meetup$
                 .subscribe((data: ICompositeMeetup) => {
+                    this._meetupId = data.id;
                     this.sessions = data.sessions;
                     this.talks = data.talks;
                     this.speakers = data.speakers;

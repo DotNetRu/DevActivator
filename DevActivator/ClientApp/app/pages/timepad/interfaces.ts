@@ -8,6 +8,7 @@ export interface IMap<T> {
 }
 
 export interface ICompositeMeetup {
+    id: string | undefined;
     sessions: ISession[];
     talks: IMap<ITalk>;
     speakers: IMap<ISpeaker>;
@@ -19,6 +20,7 @@ export type IApiCompositeMeetup = ICompositeMeetup & {
 };
 
 export interface IRandomConcatModel {
+    id: string | undefined;
     friendIds: string[];
     sessions: ISession[];
     talkIds: string[];

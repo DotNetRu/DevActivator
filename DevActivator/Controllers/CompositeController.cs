@@ -80,6 +80,7 @@ namespace DevActivator.Controllers
 
             return new CompositeModel
             {
+                Id = meetup?.Id,
                 Sessions = meetup?.Sessions,
                 Talks = talks,
                 Speakers = speakers,

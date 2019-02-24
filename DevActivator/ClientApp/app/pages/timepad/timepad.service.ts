@@ -29,6 +29,7 @@ export class CompositeService {
             descriptor,
             (res: IApiCompositeMeetup) => {
                 const model: ICompositeMeetup = Object.assign({}, {
+                    id: meetupId,
                     friends: res.friends,
                     sessions: res.sessions.map((x: IApiSession) => Object.assign({}, x, {
                         endTime: DateConverterService.toMoment(x.endTime),

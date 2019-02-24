@@ -1,7 +1,8 @@
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { MatButtonModule, MatExpansionModule, MatIconModule, MatListModule } from "@angular/material";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule, MatExpansionModule, MatIconModule, MatInputModule, MatListModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { CoreModule } from "@dotnetru/core";
 import { FriendListModule } from "@dotnetru/friend-list";
@@ -21,6 +22,7 @@ import { TimepadComponent } from "./timepad.component";
     ],
     imports: [
         CommonModule,
+        FormsModule,
 
         RouterModule.forChild([
             { path: "timepad", component: TimepadComponent },
@@ -33,6 +35,7 @@ import { TimepadComponent } from "./timepad.component";
         MatButtonModule,
         MatExpansionModule,
         MatIconModule,
+        MatInputModule,
         MatListModule,
 
         FriendListModule,

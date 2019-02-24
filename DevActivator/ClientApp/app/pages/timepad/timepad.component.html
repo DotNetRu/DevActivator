@@ -1,4 +1,24 @@
 <div class="container">
+
+    <mat-form-field class="full-width">
+        <input type="text"
+               name="meetupIdField"
+               matInput
+               [placeholder]="LABELS.IDENTITY"
+               required
+               [pattern]="PATTERNS.IDENTITY"
+               [readonly]="editMode"
+               #meetupIdField="ngModel"
+               [(ngModel)]="meetupId">
+        <mat-error *ngIf="meetupIdField.getError('required')">
+            {{ LABELS.IDENTITY | requiredErrorMessage }}
+        </mat-error>
+        <mat-error *ngIf="meetupIdField.getError('pattern')">
+            {{ PATTERNS.IDENTITY | patternErrorMessage }}
+        </mat-error>
+    </mat-form-field>
+
+
     <h3>Партнеры</h3>
     <mat-accordion cdkDropList
                    (cdkDropListDropped)="onFriendDrop($event)">

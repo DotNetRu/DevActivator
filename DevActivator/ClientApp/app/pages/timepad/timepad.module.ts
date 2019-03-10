@@ -2,7 +2,14 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule, MatExpansionModule, MatIconModule, MatInputModule, MatListModule } from "@angular/material";
+import {
+    MatButtonModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatSelectModule,
+} from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { CoreModule } from "@dotnetru/core";
 import { FriendListModule } from "@dotnetru/friend-list";
@@ -39,6 +46,7 @@ import { TimepadComponent } from "./timepad.component";
         MatIconModule,
         MatInputModule,
         MatListModule,
+        MatSelectModule,
 
         FriendListModule,
         FriendEditorModule,

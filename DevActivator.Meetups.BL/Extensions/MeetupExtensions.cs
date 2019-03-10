@@ -83,7 +83,7 @@ namespace DevActivator.Meetups.BL.Extensions
                 }).ToList(),
             };
 
-        private static Community GetCommunity(this string id)
+        public static Community GetCommunity(this string id)
             => (Community) Enum.Parse(typeof(Community), id, true);
     }
 }

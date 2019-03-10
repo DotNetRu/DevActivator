@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevActivator.Meetups.BL.Entities;
+using DevActivator.Meetups.BL.Extensions;
 using DevActivator.Meetups.BL.Interfaces;
 using DevActivator.Meetups.BL.Models;
 using DevActivator.Models;
@@ -90,12 +91,17 @@ namespace DevActivator.Controllers
                 venue = await _venueService.GetVenueAsync(descriptor.VenueId).ConfigureAwait(false);
             }
 
-            // todo: community
+            // community
+            if (string.IsNullOrWhiteSpace(descriptor.CommunityId))
+            {
+                descriptor.CommunityId = meetup?.CommunityId.ToString();
+            }
 
             return new CompositeModel
             {
                 Id = meetup?.Id,
                 Name = descriptor.Name,
+                CommunityId = descriptor.CommunityId.GetCommunity(),
                 Venue = venue,
                 Sessions = meetup?.Sessions,
                 Talks = talks,

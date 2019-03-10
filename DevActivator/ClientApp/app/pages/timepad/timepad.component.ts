@@ -8,6 +8,8 @@ import { Subscription } from "rxjs";
 
 import { FriendEditorService } from "../friend-editor/friend-editor.service";
 import { IFriend } from "../friend-editor/interfaces";
+import { COMMUNITIES } from "../meetup-editor/constants";
+import { Community } from "../meetup-editor/enums";
 import { ISession } from "../meetup-editor/interfaces";
 import { ISpeaker } from "../speaker-editor/interfaces";
 import { ITalk } from "../talk-editor/interfaces";
@@ -27,6 +29,8 @@ const DEFAULT_VENUE: IVenue = {} as IVenue;
     templateUrl: "timepad.component.html",
 })
 export class TimepadComponent implements OnInit, OnDestroy {
+    public readonly Community = Community;
+    public readonly COMMUNITIES = COMMUNITIES;
     public readonly LABELS = LABELS;
     public readonly PATTERNS = PATTERNS;
     public readonly timeFormat: string = "HH:mm";
@@ -35,6 +39,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     public readonly editMode: boolean = true;
 
     public name: string | undefined = undefined;
+    public communityId: Community | undefined;
     public venue: IVenue = Object.assign({}, DEFAULT_VENUE);
     public sessions: ISession[] = [];
     public talks: IMap<ITalk> = {};
@@ -56,6 +61,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     private get descriptor(): IRandomConcatModel {
         return {
             name: this.name,
+            communityId: String(this.communityId || ""),
             venueId: this.venue ? this.venue.id : undefined,
             friendIds: this.friends.map((x) => x.id),
             sessions: this.sessions,
@@ -83,6 +89,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
                 .subscribe((data: ICompositeMeetup) => {
                     this._meetupId = data.id;
                     this.name = data.name;
+                    this.communityId = data.communityId;
                     this.venue = data.venue || Object.assign({}, DEFAULT_VENUE);
                     this.sessions = data.sessions;
                     this.talks = data.talks;

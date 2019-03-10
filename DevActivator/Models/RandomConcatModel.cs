@@ -7,6 +7,8 @@ namespace DevActivator.Models
     {
         public string Name { get; set; }
 
+        public string CommunityId { get; set; }
+
         public string VenueId { get; set; }
 
         public List<SessionVm> Sessions { get; set; }

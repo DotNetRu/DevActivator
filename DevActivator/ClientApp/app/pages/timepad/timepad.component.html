@@ -36,6 +36,20 @@
     </mat-form-field>
 
 
+    <h3>Сообщество</h3>
+    <mat-form-field class="full-width">
+        <mat-select name="communityId"
+                    placeholder="Сообщество"
+                    [(ngModel)]="communityId"
+                    required>
+            <mat-option *ngFor="let community of COMMUNITIES"
+                        [value]="community">
+                {{ Community[community] }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
     <h3>
         <span>Площадка</span>
         <button type="button"

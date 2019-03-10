@@ -10,6 +10,7 @@ import { IFriend } from "../friend-editor/interfaces";
 import { ISession } from "../meetup-editor/interfaces";
 import { ISpeaker } from "../speaker-editor/interfaces";
 import { ITalk } from "../talk-editor/interfaces";
+import { IVenue } from "../venue-editor/interfaces";
 import { ICompositeMeetup, IMap, IRandomConcatModel } from "./interfaces";
 import { CompositeService } from "./timepad.service";
 
@@ -29,6 +30,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     public readonly editMode: boolean = true;
 
     public name: string | undefined = undefined;
+    public venue: IVenue | undefined = undefined;
     public sessions: ISession[] = [];
     public talks: IMap<ITalk> = {};
     public speakers: IMap<ISpeaker> = {};
@@ -49,6 +51,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     private get descriptor(): IRandomConcatModel {
         return {
             name: this.name,
+            venueId: this.venue ? this.venue.id : undefined,
             friendIds: this.friends.map((x) => x.id),
             sessions: this.sessions,
             speakerIds: Object.keys(this.speakers),
@@ -74,6 +77,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
                 .subscribe((data: ICompositeMeetup) => {
                     this._meetupId = data.id;
                     this.name = data.name;
+                    this.venue = data.venue;
                     this.sessions = data.sessions;
                     this.talks = data.talks;
                     this.speakers = data.speakers;
@@ -170,5 +174,15 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     public createFriend(): void {
         this.friends.push(FriendEditorService.getDefaultFriend());
+    }
+
+    public onVenueSelected(venueId: string): void {
+        const descriptor = this.descriptor;
+        descriptor.venueId = venueId;
+        this._compositeService.fetchMeetup(this._meetupId, descriptor);
+    }
+
+    public createVenue(): void {
+        // todo: open modal
     }
 }

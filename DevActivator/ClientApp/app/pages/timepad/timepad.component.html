@@ -36,6 +36,15 @@
     </mat-form-field>
 
 
+    <h3>Площадка</h3>
+    <mtp-venue-list [title]="'Площадка'"
+                    [iconName]="'fiber_new'"
+                    [iconText]="'Создать площадку'"
+                    [venueId]="venue.id"
+                    (selected)="onVenueSelected($event)"
+                    (iconClicked)="createVenue()"></mtp-venue-list>
+    <!-- <pre>{{ venue | json }}</pre> -->
+
     <h3>Партнеры</h3>
     <mat-accordion cdkDropList
                    (cdkDropListDropped)="onFriendDrop($event)">

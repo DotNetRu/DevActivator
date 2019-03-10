@@ -6,7 +6,9 @@ namespace DevActivator.Models
     public class RandomConcatModel
     {
         public string Name { get; set; }
-    
+
+        public string VenueId { get; set; }
+
         public List<SessionVm> Sessions { get; set; }
 
         public List<string> TalkIds { get; set; }

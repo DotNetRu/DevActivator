@@ -10,6 +10,8 @@ namespace DevActivator.Models
 
         public string Name { get; set; }
 
+        public VenueVm Venue { get; set; }
+
         public List<SessionVm> Sessions { get; set; }
 
         public Dictionary<string, TalkVm> Talks { get; set; }

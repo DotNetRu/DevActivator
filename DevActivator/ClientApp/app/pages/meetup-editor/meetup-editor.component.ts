@@ -99,8 +99,8 @@ export class MeetupEditorComponent implements OnInit, OnDestroy {
         this.meetup.friendIds.push({ friendId: "" });
     }
 
-    public onVenueSelected(row: IAutocompleteRow): void {
-        this.meetup.venueId = row.id;
+    public onVenueSelected(venueId: string): void {
+        this.meetup.venueId = venueId;
     }
 
     public onTalkSelected(talkId: string, index: number): void {

@@ -16,13 +16,15 @@ namespace DevActivator.Controllers
         private readonly ITalkService _talkService;
         private readonly ISpeakerService _speakerService;
         private readonly IFriendService _friendService;
+        private readonly IVenueService _venueService;
 
-        public CompositeController(IMeetupService ms, ITalkService ts, ISpeakerService ss, IFriendService fs)
+        public CompositeController(IMeetupService ms, ITalkService ts, ISpeakerService ss, IFriendService fs, IVenueService vs)
         {
             _meetupService = ms;
             _talkService = ts;
             _speakerService = ss;
             _friendService = fs;
+            _venueService = vs;
         }
 
         [HttpPost("[action]/{meetupId?}")]
@@ -31,6 +33,7 @@ namespace DevActivator.Controllers
             var meetup = await _meetupService.GetMeetupAsync(meetupId).ConfigureAwait(true);
 
             descriptor = descriptor ?? new RandomConcatModel();
+            descriptor.VenueId = descriptor.VenueId;
             descriptor.Sessions = descriptor.Sessions ?? new List<SessionVm>();
             descriptor.TalkIds = descriptor.TalkIds ?? new List<string>();
             descriptor.SpeakerIds = descriptor.SpeakerIds ?? new List<string>();
@@ -73,15 +76,27 @@ namespace DevActivator.Controllers
                 friends.Add(friend);
             }
 
-            // todo: venue
+            // name
+            if (string.IsNullOrWhiteSpace(descriptor.Name))
+            {
+                descriptor.Name = meetup?.Name;
+            }
+
+            // venue
+            descriptor.VenueId = descriptor.VenueId ?? meetup?.VenueId;
+            VenueVm venue = null;
+            if (!string.IsNullOrWhiteSpace(descriptor.VenueId))
+            {
+                venue = await _venueService.GetVenueAsync(descriptor.VenueId).ConfigureAwait(false);
+            }
+
             // todo: community
 
             return new CompositeModel
             {
                 Id = meetup?.Id,
-                Name = string.IsNullOrWhiteSpace(descriptor.Name) 
-                    ? meetup?.Name
-                    : descriptor.Name,
+                Name = descriptor.Name,
+                Venue = venue,
                 Sessions = meetup?.Sessions,
                 Talks = talks,
                 Speakers = speakers,

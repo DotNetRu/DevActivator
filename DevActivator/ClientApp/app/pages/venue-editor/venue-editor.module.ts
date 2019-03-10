@@ -7,17 +7,21 @@ import { CoreModule } from "@dotnetru/core";
 import { CitySelectModule } from "@dotnetru/shared/city-select";
 import { SpeakerListModule } from "@dotnetru/speaker-list";
 
+import { VenueEditorDialogComponent } from "./venue-editor-dialog.component";
 import { VenueEditorComponent } from "./venue-editor.component";
 
 @NgModule({
     declarations: [
         VenueEditorComponent,
+        VenueEditorDialogComponent,
     ],
     entryComponents: [
         VenueEditorComponent,
+        VenueEditorDialogComponent,
     ],
     exports: [
         VenueEditorComponent,
+        VenueEditorDialogComponent,
     ],
     imports: [
         RouterModule.forChild([

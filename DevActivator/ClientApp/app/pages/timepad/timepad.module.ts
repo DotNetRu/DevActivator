@@ -10,6 +10,7 @@ import { FriendEditorModule } from "@dotnetru/pages/friend-editor";
 import { MeetupEditorModule } from "@dotnetru/pages/meetup-editor";
 import { SpeakerEditorModule } from "@dotnetru/pages/speaker-editor";
 import { TalkEditorModule } from "@dotnetru/pages/talk-editor";
+import { VenueEditorModule } from "@dotnetru/pages/venue-editor";
 import { VenueListModule } from "@dotnetru/venue-list";
 
 import { TimepadComponent } from "./timepad.component";
@@ -44,6 +45,7 @@ import { TimepadComponent } from "./timepad.component";
         MeetupEditorModule,
         SpeakerEditorModule,
         TalkEditorModule,
+        VenueEditorModule,
         VenueListModule,
     ],
 })

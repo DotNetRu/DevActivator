@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LABELS, PATTERNS } from "@dotnetru/core";
 import { Moment } from "moment";
@@ -10,9 +11,13 @@ import { IFriend } from "../friend-editor/interfaces";
 import { ISession } from "../meetup-editor/interfaces";
 import { ISpeaker } from "../speaker-editor/interfaces";
 import { ITalk } from "../talk-editor/interfaces";
+import { VenueEditorDialogComponent } from "../venue-editor";
 import { IVenue } from "../venue-editor/interfaces";
 import { ICompositeMeetup, IMap, IRandomConcatModel } from "./interfaces";
 import { CompositeService } from "./timepad.service";
+
+// todo: regular service method
+const DEFAULT_VENUE: IVenue = {} as IVenue;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,7 +35,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     public readonly editMode: boolean = true;
 
     public name: string | undefined = undefined;
-    public venue: IVenue | undefined = undefined;
+    public venue: IVenue = Object.assign({}, DEFAULT_VENUE);
     public sessions: ISession[] = [];
     public talks: IMap<ITalk> = {};
     public speakers: IMap<ISpeaker> = {};
@@ -60,6 +65,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     }
 
     constructor(
+        private _dialog: MatDialog,
         private _compositeService: CompositeService,
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -77,7 +83,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
                 .subscribe((data: ICompositeMeetup) => {
                     this._meetupId = data.id;
                     this.name = data.name;
-                    this.venue = data.venue;
+                    this.venue = data.venue || Object.assign({}, DEFAULT_VENUE);
                     this.sessions = data.sessions;
                     this.talks = data.talks;
                     this.speakers = data.speakers;
@@ -183,6 +189,27 @@ export class TimepadComponent implements OnInit, OnDestroy {
     }
 
     public createVenue(): void {
-        // todo: open modal
+        this.openVenueDialog(undefined);
+    }
+
+    public editVenue(): void {
+        this.openVenueDialog(this.venue);
+    }
+
+    private openVenueDialog(data?: IVenue): void {
+        const config: MatDialogConfig<IVenue> = {
+            panelClass: "full-height",
+            width: "640px",
+        };
+        if (data) {
+            config.data = data;
+        }
+        const dialogRef = this._dialog.open(VenueEditorDialogComponent, config);
+
+        dialogRef.afterClosed().subscribe((venue?: IVenue) => {
+            if (venue && venue.id) {
+                this.onVenueSelected(venue.id);
+            }
+        });
     }
 }

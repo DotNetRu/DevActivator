@@ -36,14 +36,26 @@
     </mat-form-field>
 
 
-    <h3>Площадка</h3>
-    <mtp-venue-list [title]="'Площадка'"
-                    [iconName]="'fiber_new'"
-                    [iconText]="'Создать площадку'"
-                    [venueId]="venue.id"
-                    (selected)="onVenueSelected($event)"
-                    (iconClicked)="createVenue()"></mtp-venue-list>
-    <!-- <pre>{{ venue | json }}</pre> -->
+    <h3>
+        <span>Площадка</span>
+        <button type="button"
+                color="primary"
+                mat-button
+                (click)="createVenue()">
+            <mat-icon>fiber_new</mat-icon>
+            <span>Создать</span>
+        </button>
+    </h3>
+
+    <ng-container *ngFor="let _ of [venue]">
+        <mtp-venue-list [title]="'Площадка'"
+                        [iconName]="'edit'"
+                        [iconText]="'Изменить'"
+                        [venueId]="venue.id"
+                        (selected)="onVenueSelected($event)"
+                        (iconClicked)="editVenue()"></mtp-venue-list>
+        <!-- <pre>{{ venue | json }}</pre> -->
+    </ng-container>
 
     <h3>Партнеры</h3>
     <mat-accordion cdkDropList

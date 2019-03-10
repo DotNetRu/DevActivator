@@ -1,12 +1,22 @@
 :host {
     display: block;
-    height: calc(100% - 64px);
+    height: 100%;
+}
+
+.save-action {
+    height: 36px;
+    padding-bottom: 4px;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .container {
     max-width: 640px;
     margin: 0 auto;
-    height: 100%;
+    height: calc(100% - 40px);
     overflow: auto;
 }
 

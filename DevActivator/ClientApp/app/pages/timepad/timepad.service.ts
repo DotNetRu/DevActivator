@@ -26,24 +26,40 @@ export class CompositeService {
             API_ENDPOINTS.getCompositeMeetupUrl.replace("{{meetupId}}", meetupId || ""),
             descriptor,
             (res: IApiCompositeMeetup) => {
-                const model: ICompositeMeetup = Object.assign({}, {
-                    id: meetupId,
-                    name: res.name,
-                    communityId: res.communityId,
-                    venue: res.venue,
-                    friends: res.friends,
-                    sessions: res.sessions.map((x: IApiSession) => Object.assign({}, x, {
-                        endTime: DateConverterService.toMoment(x.endTime),
-                        startTime: DateConverterService.toMoment(x.startTime),
-                    })),
-                    speakers: res.speakers,
-                    talks: res.talks,
-                });
-
+                const model: ICompositeMeetup = this.toCompositeMeetup(meetupId, res);
                 this._meetup$.next(model);
                 if (cb) {
                     cb();
                 }
             });
+    }
+
+    public saveMeetup(meetupId: string | undefined, descriptor: IRandomConcatModel, cb?: () => void): void {
+        this._httpService.post<IApiCompositeMeetup>(
+            API_ENDPOINTS.saveCompositeMeetupUrl.replace("{{meetupId}}", meetupId || ""),
+            descriptor,
+            (res: IApiCompositeMeetup) => {
+                const model: ICompositeMeetup = this.toCompositeMeetup(meetupId, res);
+                this._meetup$.next(model);
+                if (cb) {
+                    cb();
+                }
+            });
+    }
+
+    private toCompositeMeetup(meetupId: string | undefined, data: IApiCompositeMeetup): ICompositeMeetup {
+        return Object.assign({}, {
+            id: meetupId,
+            name: data.name,
+            communityId: data.communityId,
+            venue: data.venue,
+            friends: data.friends,
+            sessions: data.sessions.map((x: IApiSession) => Object.assign({}, x, {
+                endTime: DateConverterService.toMoment(x.endTime),
+                startTime: DateConverterService.toMoment(x.startTime),
+            })),
+            speakers: data.speakers,
+            talks: data.talks,
+        });
     }
 }

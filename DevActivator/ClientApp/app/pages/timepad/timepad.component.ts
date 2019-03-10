@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { ActivatedRoute, Params } from "@angular/router";
-import { LABELS, PATTERNS } from "@dotnetru/core";
+import { DateConverterService, LABELS, PATTERNS } from "@dotnetru/core";
 import { Moment } from "moment";
 import { Subscription } from "rxjs";
 
@@ -64,7 +64,10 @@ export class TimepadComponent implements OnInit, OnDestroy {
             communityId: String(this.communityId || ""),
             venueId: this.venue ? this.venue.id : undefined,
             friendIds: this.friends.map((x) => x.id),
-            sessions: this.sessions,
+            sessions: this.sessions.map((x) => Object.assign({}, x, {
+                endTime: x.endTime ? DateConverterService.toApiString(x.endTime) : "",
+                startTime: x.startTime ? DateConverterService.toApiString(x.startTime) : "",
+            })),
             speakerIds: Object.keys(this.speakers),
             talkIds: Object.keys(this.talks),
         };
@@ -102,6 +105,10 @@ export class TimepadComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this._subs.forEach((x) => x.unsubscribe);
+    }
+
+    public save(): void {
+        this._compositeService.saveMeetup(this._meetupId, this.descriptor);
     }
 
     public addSession(talkId: string = ""): void {

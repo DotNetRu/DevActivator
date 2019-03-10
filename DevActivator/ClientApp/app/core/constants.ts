@@ -5,6 +5,7 @@ export const API_ENDPOINTS = {
     addTalkUrl: "api/Talk/AddTalk",
     addVenueUrl: "api/Venue/AddVenue",
     getCompositeMeetupUrl: "api/Composite/GetMeetup/{{meetupId}}",
+    saveCompositeMeetupUrl: "api/Composite/SaveMeetup/{{meetupId}}",
     getFriendUrl: "api/Friend/GetFriend/{{friendId}}",
     getFriendsUrl: "api/Friend/GetFriends",
     getMeetupUrl: "api/Meetup/GetMeetup/{{meetupId}}",

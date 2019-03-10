@@ -40,10 +40,12 @@ namespace DevActivator.Controllers
             descriptor.SpeakerIds = descriptor.SpeakerIds ?? new List<string>();
             descriptor.FriendIds = descriptor.FriendIds ?? new List<string>();
 
-            if (meetup?.Sessions != null)
+            if (meetup != null && descriptor.Sessions.Count == 0)
             {
-                descriptor.TalkIds.AddRange(meetup.Sessions.Select(x => x.TalkId));
+                descriptor.Sessions = meetup.Sessions;
             }
+
+            descriptor.TalkIds.AddRange(descriptor.Sessions.Select(x => x.TalkId).Where(x => !string.IsNullOrWhiteSpace(x)));
 
             // talks
             var talks = new Dictionary<string, TalkVm>();
@@ -65,7 +67,7 @@ namespace DevActivator.Controllers
             }
 
             // friends
-            if (meetup?.FriendIds != null)
+            if (meetup != null && descriptor.FriendIds.Count == 0)
             {
                 descriptor.FriendIds.AddRange(meetup.FriendIds.Select(x => x.FriendId));
             }
@@ -73,7 +75,7 @@ namespace DevActivator.Controllers
             var friends = new List<Friend>();
             foreach (var friendId in descriptor.FriendIds.Distinct())
             {
-                var friend = await _friendService.GetFriendAsync(friendId).ConfigureAwait(false);
+                var friend = await _friendService.GetFriendAsync(friendId).ConfigureAwait(true);
                 friends.Add(friend);
             }
 
@@ -88,7 +90,7 @@ namespace DevActivator.Controllers
             VenueVm venue = null;
             if (!string.IsNullOrWhiteSpace(descriptor.VenueId))
             {
-                venue = await _venueService.GetVenueAsync(descriptor.VenueId).ConfigureAwait(false);
+                venue = await _venueService.GetVenueAsync(descriptor.VenueId).ConfigureAwait(true);
             }
 
             // community
@@ -103,11 +105,65 @@ namespace DevActivator.Controllers
                 Name = descriptor.Name,
                 CommunityId = descriptor.CommunityId.GetCommunity(),
                 Venue = venue,
-                Sessions = meetup?.Sessions,
+                Sessions = descriptor.Sessions,
                 Talks = talks,
                 Speakers = speakers,
                 Friends = friends
             };
+        }
+
+        [HttpPost("[action]/{meetupId?}")]
+        public async Task<CompositeModel> SaveMeetup([FromRoute] string meetupId, [FromBody] RandomConcatModel descriptor = null)
+        {
+            var oldMeetup = await _meetupService.GetMeetupAsync(meetupId).ConfigureAwait(true);
+
+            if (oldMeetup != null)
+            {
+                Extend(oldMeetup, descriptor);
+                var savedMeetup = await _meetupService.UpdateMeetupAsync(oldMeetup).ConfigureAwait(true);
+                meetupId = savedMeetup.Id;
+            }
+            else
+            {
+                var newMeetup = new MeetupVm {Id = meetupId};
+                Extend(newMeetup, descriptor);
+
+                var savedMeetup = await _meetupService.AddMeetupAsync(newMeetup).ConfigureAwait(true);
+                meetupId = savedMeetup.Id;
+            }
+
+            return await GetMeetup(meetupId).ConfigureAwait(true);
+        }
+
+        private static void Extend(MeetupVm meetup, RandomConcatModel descriptor)
+        {
+            if (descriptor != null)
+            {
+                if (!string.IsNullOrWhiteSpace(descriptor.Name))
+                {
+                    meetup.Name = descriptor.Name;
+                }
+
+                if (!string.IsNullOrWhiteSpace(descriptor.CommunityId))
+                {
+                    meetup.CommunityId = descriptor.CommunityId.GetCommunity();
+                }
+
+                if (descriptor.FriendIds != null && descriptor.FriendIds.Count != 0)
+                {
+                    meetup.FriendIds = descriptor.FriendIds.Select(x => new FriendReference {FriendId = x}).ToList();
+                }
+
+                if (!string.IsNullOrWhiteSpace(descriptor.VenueId))
+                {
+                    meetup.VenueId = descriptor.VenueId;
+                }
+
+                if (descriptor.Sessions != null && descriptor.Sessions.Count != 0)
+                {
+                    meetup.Sessions = descriptor.Sessions;
+                }
+            }
         }
     }
 }

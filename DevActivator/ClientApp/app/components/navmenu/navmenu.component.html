@@ -17,7 +17,12 @@
 </a>
 
 <mat-menu #createEntityMenu="matMenu">
-    <!-- todo: meetup -->
+    <a mat-menu-item
+       [routerLink]="['/timepad']">
+        <img class="mat-icon"
+             src="/icons/meetup.svg">
+        <span>Встречу</span>
+    </a>
     <a mat-menu-item
        [routerLink]="['/speaker-creator']">
         <mat-icon>person</mat-icon>

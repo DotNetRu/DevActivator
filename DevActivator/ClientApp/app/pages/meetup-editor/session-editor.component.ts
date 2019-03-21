@@ -19,7 +19,7 @@ export class SessionEditorComponent {
         return this._session;
     }
     public set session(value: ISession) {
-        this._session = Object.assign({}, value);
+        this._session = value;
     }
 
     @Output() public readonly talkSelected = new EventEmitter<string>();

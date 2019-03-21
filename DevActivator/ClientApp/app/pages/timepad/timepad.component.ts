@@ -35,8 +35,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
     public readonly PATTERNS = PATTERNS;
     public readonly timeFormat: string = "HH:mm";
 
-    // todo: remove readonly, implement false
-    public readonly editMode: boolean = true;
+    public editMode: boolean = true;
 
     public name: string | undefined = undefined;
     public communityId: Community | undefined;
@@ -52,7 +51,9 @@ export class TimepadComponent implements OnInit, OnDestroy {
     }
     set meetupId(value: string) {
         this._meetupId = value;
-        this._compositeService.fetchMeetup(this._meetupId, this.descriptor);
+        if (this.editMode) {
+            this._compositeService.fetchMeetup(this._meetupId, this.descriptor);
+        }
     }
 
     private _meetupId?: string;
@@ -84,7 +85,8 @@ export class TimepadComponent implements OnInit, OnDestroy {
         this._subs = [
             this._activatedRoute.params
                 .subscribe((params: Params) => {
-                    if (typeof params.meetupId === "string" && params.meetupId.length > 0) {
+                    this.editMode = typeof params.meetupId === "string" && params.meetupId.length > 0;
+                    if (this.editMode) {
                         this.meetupId = params.meetupId;
                     }
                 }),
@@ -142,7 +144,7 @@ export class TimepadComponent implements OnInit, OnDestroy {
             this._compositeService.fetchMeetup(this._meetupId, descriptor, () => {
                 const session: ISession | undefined = this.sessions[index];
                 if (session) {
-                    this.sessions[index].talkId = talkId;
+                    this.sessions[index] = Object.assign({}, session, { talkId });
                 } else {
                     this.addSession(talkId);
                 }

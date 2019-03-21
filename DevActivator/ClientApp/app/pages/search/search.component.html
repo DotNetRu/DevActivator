@@ -15,4 +15,8 @@
     <mtp-meetup-list (selected)="onMeetupSelected($event)"
                      (iconClicked)="addMeetup()"></mtp-meetup-list>
 
+    <mtp-meetup-list [title]="'Поиск на timepad'"
+                     (selected)="onTimepadSelected($event)"
+                     (iconClicked)="addTimepad()"></mtp-meetup-list>
+
 </div>

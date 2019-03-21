@@ -51,4 +51,13 @@ export class SearchPageComponent {
     public addMeetup(): void {
         this._router.navigateByUrl(`meetup-creator`);
     }
+
+    public addTimepad(): void {
+        this._router.navigateByUrl(`timepad`);
+    }
+
+    public onTimepadSelected(meetup: IAutocompleteRow): void {
+        this._router.navigateByUrl(`timepad/${meetup.id}`);
+    }
+
 }

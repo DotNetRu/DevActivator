@@ -71,14 +71,6 @@ export class SpeakerEditorComponent implements OnInit, OnDestroy {
         this._subs.forEach((x) => x.unsubscribe);
     }
 
-    public goBack(): void {
-        if (!this._speakerEditorService.hasChanges(this.speaker)) {
-            this._router.navigateByUrl("/speaker-list");
-        } else {
-            this._layoutService.showWarning("Потеря введенных данных предотвращена");
-        }
-    }
-
     public save(cb?: (speaker: ISpeaker) => void): void {
         if (this.editMode) {
             this._speakerEditorService.updateSpeaker(this.speaker, () => {

@@ -67,14 +67,6 @@ export class VenueEditorComponent implements OnInit, OnDestroy {
         this._subs.forEach((x) => x.unsubscribe);
     }
 
-    public goBack(): void {
-        if (!this._venueEditorService.hasChanges(this.venue)) {
-            this._router.navigateByUrl("/venue-list");
-        } else {
-            this._layoutService.showWarning("Потеря введенных данных предотвращена");
-        }
-    }
-
     public save(cb?: (venue: IVenue) => void): void {
         if (this.editMode) {
             this._venueEditorService.updateVenue(this.venue, () => {

@@ -81,14 +81,6 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
         this._subs.forEach((x) => x.unsubscribe);
     }
 
-    public goBack(): void {
-        if (!this._talkEditorService.hasChanges(this.talk)) {
-            this._router.navigateByUrl("/talk-list");
-        } else {
-            this._layoutService.showWarning("Потеря введенных данных предотвращена");
-        }
-    }
-
     public save(cb?: (talk: ITalk) => void): void {
         if (this.editMode) {
             this._talkEditorService.updateTalk(this.talk, () => {

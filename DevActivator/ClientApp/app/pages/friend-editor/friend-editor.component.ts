@@ -75,14 +75,6 @@ export class FriendEditorComponent implements OnInit, OnDestroy {
         this._subs.forEach((x) => x.unsubscribe);
     }
 
-    public goBack(): void {
-        if (!this._friendEditorService.hasChanges(this.friend)) {
-            this._router.navigateByUrl("/friend-list");
-        } else {
-            this._layoutService.showWarning("Потеря введенных данных предотвращена");
-        }
-    }
-
     public save(cb?: (friend: IFriend) => void): void {
         if (this.editMode) {
             this._friendEditorService.updateFriend(this.friend, () => {

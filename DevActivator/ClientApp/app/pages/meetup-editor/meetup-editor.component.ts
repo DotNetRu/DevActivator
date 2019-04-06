@@ -66,14 +66,6 @@ export class MeetupEditorComponent implements OnInit, OnDestroy {
         this._subs.forEach((x) => x.unsubscribe);
     }
 
-    public goBack(): void {
-        if (!this._meetupEditorService.hasChanges(this.meetup)) {
-            this._router.navigateByUrl("/meetup-list");
-        } else {
-            this._layoutService.showWarning("Потеря введенных данных предотвращена");
-        }
-    }
-
     public save(): void {
         if (this.editMode) {
             this._meetupEditorService.updateMeetup(this.meetup);

@@ -24,6 +24,7 @@ export class FriendListComponent implements OnInit, OnDestroy {
     @Input() public title: string = "Поиск друга";
     @Input() public iconName: string = "add";
     @Input() public iconText: string = "Добавить";
+    @Input() public clearOnSelect: boolean = false;
 
     @Input() public set friendLink(value: { friendId?: string }) {
         if (value && value.friendId) {

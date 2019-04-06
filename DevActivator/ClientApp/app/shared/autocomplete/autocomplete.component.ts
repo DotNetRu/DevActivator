@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { MatInput } from "@angular/material";
 import { Observable } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
 
@@ -15,9 +16,12 @@ export class AutocompleteComponent {
     @Input() public iconName: string = "";
     @Input() public iconText: string = "";
     @Input() public data: IAutocompleteRow[] = [];
+    @Input() public clearOnSelect: boolean = false;
 
     @Output() public readonly selected: EventEmitter<IAutocompleteRow> = new EventEmitter<IAutocompleteRow>();
     @Output() public readonly iconClicked: EventEmitter<void> = new EventEmitter<void>();
+
+    @ViewChild("queryInput") public queryInput!: MatInput;
 
     public data$: Observable<IAutocompleteRow[]>;
     public queryControl: FormControl;
@@ -54,6 +58,17 @@ export class AutocompleteComponent {
     public onSelected(row: IAutocompleteRow): void {
         this.queryControl.patchValue(row.name);
         this.selected.emit(row);
+
+        if (this.clearOnSelect === true) {
+            this.queryControl.markAsPristine();
+            this.queryControl.markAsUntouched();
+
+            if (this.queryInput) {
+                this.queryInput.value = "";
+            }
+
+            this.queryControl.setValue(null);
+        }
     }
 
     public onIconClick(): void {

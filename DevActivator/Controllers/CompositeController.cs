@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevActivator.Meetups.BL.Entities;
+using DevActivator.Meetups.BL.Enums;
 using DevActivator.Meetups.BL.Extensions;
 using DevActivator.Meetups.BL.Interfaces;
 using DevActivator.Meetups.BL.Models;
@@ -103,7 +104,9 @@ namespace DevActivator.Controllers
             {
                 Id = meetup?.Id,
                 Name = descriptor.Name,
-                CommunityId = descriptor.CommunityId.GetCommunity(),
+                CommunityId = string.IsNullOrWhiteSpace(descriptor.CommunityId)
+                    ? (Community?) null
+                    : descriptor.CommunityId.GetCommunity(),
                 Venue = venue,
                 Sessions = descriptor.Sessions,
                 Talks = talks,

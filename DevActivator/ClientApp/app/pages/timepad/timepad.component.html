@@ -134,6 +134,7 @@
                      [iconName]="'fiber_new'"
                      [iconText]="'Создать друга'"
                      [friendLink]="{ friendId: '' }"
+                     [clearOnSelect]="true"
                      (selected)="onFriendSelected($event)"
                      (iconClicked)="createFriend()"></mtp-friend-list>
 

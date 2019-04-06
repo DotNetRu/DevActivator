@@ -42,7 +42,7 @@ export class SpeakerEditorService {
             API_ENDPOINTS.addSpeakerUrl,
             speaker,
             (res: ISpeaker) => {
-                this._layoutService.showInfo("Спикер добавлен успешно");
+                this._layoutService.showInfo("Докладчик добавлен успешно");
                 cb(res);
             },
         );
@@ -53,7 +53,7 @@ export class SpeakerEditorService {
             API_ENDPOINTS.updateSpeakerUrl,
             speaker,
             (x: ISpeaker) => {
-                this._layoutService.showInfo("Спикер изменён успешно");
+                this._layoutService.showInfo("Докладчик изменён успешно");
                 this._dataStore.speaker = x;
                 this._speaker$.next(Object.assign({}, this._dataStore.speaker));
                 cb();

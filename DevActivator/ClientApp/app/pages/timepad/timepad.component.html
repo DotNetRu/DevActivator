@@ -71,7 +71,7 @@
         <!-- <pre>{{ venue | json }}</pre> -->
     </ng-container>
 
-    <h3>Партнеры</h3>
+    <h3>Друзья</h3>
     <mat-accordion cdkDropList
                    (cdkDropListDropped)="onFriendDrop($event)">
         <ng-container *ngFor="let friend of friends; let i = index">
@@ -207,7 +207,6 @@
         <span>Добавить слот</span>
     </button>
 
-    <p>После этих вдохновляющих речей приглашаем всех желающих в бар для обсуждения накопившихся вопросов и идей!</p>
     <h3>Доклады</h3>
     <mat-accordion>
 
@@ -263,7 +262,6 @@
         </ng-container>
 
     </mat-accordion>
-    <h4>Участие бесплатное, количество мест ограниченно!</h4>
 </div>
 <div class="save-action">
     <button type="button"

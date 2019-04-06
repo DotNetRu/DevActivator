@@ -64,7 +64,7 @@
 
     <mat-card>
         <mtp-speaker-list *ngFor="let rel of talk.speakerIds; let idx = index"
-                          [title]="'Спикер №' + (idx+1)"
+                          [title]="'Докладчик №' + (idx+1)"
                           [iconName]="'delete_forever'"
                           [iconText]="'Убрать'"
                           [speakerLink]="rel"
@@ -76,7 +76,7 @@
                     mat-button
                     (click)="addSpeaker()">
                 <mat-icon>person_add</mat-icon>
-                <span *ngIf="talk.speakerIds.length === 0">Добавить спикера</span>
+                <span *ngIf="talk.speakerIds.length === 0">Добавить докладчика</span>
                 <span *ngIf="talk.speakerIds.length === 1">Это парный доклад</span>
                 <span *ngIf="talk.speakerIds.length === 2">Это тройничок</span>
                 <span *ngIf="talk.speakerIds.length >=3">Это круглый стол</span>
@@ -86,7 +86,7 @@
                     mat-button
                     (click)="createSpeaker()">
                 <mat-icon>fiber_new</mat-icon>
-                <span>Создать спикера</span>
+                <span>Создать докладчика</span>
             </button>
         </div>
     </mat-card>

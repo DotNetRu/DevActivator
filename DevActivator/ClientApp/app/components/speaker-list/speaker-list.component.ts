@@ -21,7 +21,7 @@ import { SpeakerListService } from "./speaker-list.service";
     templateUrl: "./speaker-list.component.html",
 })
 export class SpeakerListComponent implements OnInit, OnDestroy {
-    @Input() public title: string = "Поиск спикера";
+    @Input() public title: string = "Поиск докладчика";
     @Input() public iconName: string = "add";
     @Input() public iconText: string = "Добавить";
 

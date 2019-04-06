@@ -71,7 +71,19 @@ export class HttpService {
         if (errCb) {
             errCb(err);
         } else {
-            this._layoutService.showError(err.message);
+            let message: string = "Неопознанная ошибка!";
+
+            if (err.status === 400 || err.status === 404 || err.status === 405) {
+                message = err.error;
+            } else if (err.status === 500) {
+                message = "Возникла непредвиденная ошибка на сервере";
+            } else if (err.status <= 0) {
+                message = "Api не запущен";
+            } else {
+                throw err;
+            }
+
+            this._layoutService.showError(message);
         }
     }
 

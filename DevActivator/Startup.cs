@@ -6,6 +6,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DevActivator.Common.BL.Caching;
 using DevActivator.Common.BL.Config;
+using DevActivator.Extensions;
 using DevActivator.Meetups.BL;
 using DevActivator.Meetups.DAL.Providers;
 using ElectronNET.API;
@@ -72,9 +73,9 @@ namespace DevActivator
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseExceptionMiddleware();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 if (HybridSupport.IsElectronActive)
                 {
                     //the below is a hacky way to get hot module loading working for the ElectronNet app.
@@ -88,10 +89,6 @@ namespace DevActivator
                         HotModuleReplacement = true
                     });
                 }
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseFileServer(new FileServerOptions

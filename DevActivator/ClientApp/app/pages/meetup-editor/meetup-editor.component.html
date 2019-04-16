@@ -5,7 +5,7 @@
         <button type="button"
                 color="primary"
                 mat-button
-                [disabled]="!editMode"
+                *ngIf="editMode"
                 (click)="reset()">
             <mat-icon>close</mat-icon>
             <span>Сбросить</span>

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LayoutService } from "@dotnetru/core";
-
 import { ITalk } from "./interfaces";
 import { TalkEditorComponent } from "./talk-editor.component";
 import { TalkEditorService } from "./talk-editor.service";
@@ -32,5 +31,9 @@ export class TalkEditorDialogComponent extends TalkEditorComponent {
         super.save((talk: ITalk) => {
             this._dialogRef.close(talk);
         });
+    }
+
+    public close(): void {
+        this._dialogRef.close();
     }
 }

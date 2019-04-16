@@ -3,7 +3,6 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { FILE_SIZES, LABELS, LayoutService, MIME_TYPES, PATTERNS } from "@dotnetru/core";
 import { IAcceptedFile, IRejectedFile, RejectionReason } from "@dotnetru/shared/file-dialog";
 import { Subscription } from "rxjs";
-
 import { ISpeaker } from "./interfaces";
 import { SpeakerEditorService } from "./speaker-editor.service";
 
@@ -86,6 +85,10 @@ export class SpeakerEditorComponent implements OnInit, OnDestroy {
 
     public reset(): void {
         this._speakerEditorService.reset();
+    }
+
+    public close(): void {
+        console.warn(`${this.constructor.name} => close`);
     }
 
     public onFilesAccepted(files: IAcceptedFile[]): void {

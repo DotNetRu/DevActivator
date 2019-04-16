@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/
 import { MatDialogRef } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LayoutService } from "@dotnetru/core";
-
 import { ISpeaker } from "./interfaces";
 import { SpeakerEditorComponent } from "./speaker-editor.component";
 import { SpeakerEditorService } from "./speaker-editor.service";
@@ -31,5 +30,9 @@ export class SpeakerEditorDialogComponent extends SpeakerEditorComponent {
         super.save((speaker: ISpeaker) => {
             this._dialogRef.close(speaker);
         });
+    }
+
+    public close(): void {
+        this._dialogRef.close();
     }
 }

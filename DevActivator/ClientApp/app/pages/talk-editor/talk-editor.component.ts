@@ -1,20 +1,10 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-} from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { LABELS, LayoutService, PATTERNS } from "@dotnetru/core";
 import { ISpeaker, SpeakerEditorDialogComponent } from "@dotnetru/pages/speaker-editor";
 import { IAutocompleteRow } from "@dotnetru/shared/autocomplete";
 import { Subscription } from "rxjs";
-
 import { ITalk } from "./interfaces";
 import { TalkEditorService } from "./talk-editor.service";
 
@@ -96,6 +86,10 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
 
     public reset(): void {
         this._talkEditorService.reset();
+    }
+
+    public close(): void {
+        console.warn(`${this.constructor.name} => close`);
     }
 
     public onSpeakerSelected(row: IAutocompleteRow, index: number): void {

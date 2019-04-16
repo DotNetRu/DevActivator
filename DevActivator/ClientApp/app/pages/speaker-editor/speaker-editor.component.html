@@ -20,6 +20,13 @@
             <mat-icon>{{ editMode ? 'save' : 'add' }}</mat-icon>
             <span>{{ editMode ? 'Сохранить' : 'Добавить' }}</span>
         </button>
+        <button *ngIf="isDialog"
+                type="button"
+                color="primary"
+                mat-icon-button
+                (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
     </div>
 
     <div class="image-container"

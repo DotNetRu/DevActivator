@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LayoutService } from "@dotnetru/core";
-
 import { IVenue } from "./interfaces";
 import { VenueEditorComponent } from "./venue-editor.component";
 import { VenueEditorService } from "./venue-editor.service";
@@ -42,5 +41,9 @@ export class VenueEditorDialogComponent extends VenueEditorComponent implements 
         super.save((venue: IVenue) => {
             this._dialogRef.close(venue);
         });
+    }
+
+    public close(): void {
+        this._dialogRef.close();
     }
 }

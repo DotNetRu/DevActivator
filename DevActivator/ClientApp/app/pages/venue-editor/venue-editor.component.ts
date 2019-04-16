@@ -1,17 +1,8 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    OnDestroy,
-    OnInit,
-    Output,
-} from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { LABELS, LayoutService, PATTERNS } from "@dotnetru/core";
 import { City } from "@dotnetru/shared/city-select";
 import { Subscription } from "rxjs";
-
 import { IVenue } from "./interfaces";
 import { VenueEditorService } from "./venue-editor.service";
 
@@ -85,5 +76,9 @@ export class VenueEditorComponent implements OnInit, OnDestroy {
 
     public reset(): void {
         this._venueEditorService.reset();
+    }
+
+    public close(): void {
+        console.warn(`${this.constructor.name} => close`);
     }
 }

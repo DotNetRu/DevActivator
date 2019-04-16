@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
-import { API_ENDPOINTS, DateConverterService, HttpService } from "@dotnetru/core";
+import { API_ENDPOINTS, DateConverterService, HttpService, LayoutService } from "@dotnetru/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
-
 import { IApiSession } from "../meetup-editor/interfaces";
 import { IApiCompositeMeetup, ICompositeMeetup, IRandomConcatModel } from "./interfaces";
 
@@ -18,6 +17,7 @@ export class CompositeService {
     private _meetup$: BehaviorSubject<ICompositeMeetup | null> = new BehaviorSubject<ICompositeMeetup | null>(null);
 
     constructor(
+        private _layoutService: LayoutService,
         private _httpService: HttpService,
     ) { }
 
@@ -40,6 +40,7 @@ export class CompositeService {
             descriptor,
             (res: IApiCompositeMeetup) => {
                 const model: ICompositeMeetup = this.toCompositeMeetup(meetupId, res);
+                this._layoutService.showInfo("Встреча изменена успешно");
                 this._meetup$.next(model);
                 if (cb) {
                     cb();

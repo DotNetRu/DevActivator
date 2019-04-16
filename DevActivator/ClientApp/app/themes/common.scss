@@ -25,10 +25,23 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .actions__right {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+}
+
+.text {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.bold {
+    font-weight: 700;
 }

@@ -1,23 +1,26 @@
 <form #friendForm="ngForm"
       class="base-component-container">
 
-    <div class="actions">
-        <button type="button"
-                color="primary"
-                mat-button
-                [disabled]="!editMode"
-                (click)="reset()">
-            <mat-icon>close</mat-icon>
-            <span>Сбросить</span>
-        </button>
-        <button type="button"
-                color="primary"
-                mat-button
-                [disabled]="friendForm.invalid"
-                (click)="save()">
-            <mat-icon>{{ editMode ? 'save' : 'add' }}</mat-icon>
-            <span>{{ editMode ? 'Сохранить' : 'Добавить' }}</span>
-        </button>
+    <div class="actions__space-between">
+        <span class="text bold no-wrap">{{ editMode ? 'Редактирование' : 'Добавление' }} друга</span>
+        <div class="actions">
+            <button type="button"
+                    color="primary"
+                    mat-button
+                    [disabled]="!editMode"
+                    (click)="reset()">
+                <mat-icon>close</mat-icon>
+                <span>Сбросить</span>
+            </button>
+            <button type="button"
+                    color="primary"
+                    mat-button
+                    [disabled]="friendForm.invalid"
+                    (click)="save()">
+                <mat-icon>{{ editMode ? 'save' : 'add' }}</mat-icon>
+                <span>{{ editMode ? 'Сохранить' : 'Добавить' }}</span>
+            </button>
+        </div>
     </div>
 
     <div class="image-container"

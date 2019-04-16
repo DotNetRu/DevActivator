@@ -3,30 +3,33 @@
 
     <pre>{{ speaker.lastUpdateDate | json }}</pre>
 
-    <div class="actions">
-        <button type="button"
-                color="primary"
-                mat-button
-                [disabled]="!editMode"
-                (click)="reset()">
-            <mat-icon>close</mat-icon>
-            <span>Сбросить</span>
-        </button>
-        <button type="button"
-                color="primary"
-                mat-button
-                [disabled]="speakerForm.invalid"
-                (click)="save()">
-            <mat-icon>{{ editMode ? 'save' : 'add' }}</mat-icon>
-            <span>{{ editMode ? 'Сохранить' : 'Добавить' }}</span>
-        </button>
-        <button *ngIf="isDialog"
-                type="button"
-                color="primary"
-                mat-icon-button
-                (click)="close()">
-            <mat-icon>close</mat-icon>
-        </button>
+    <div class="actions__space-between">
+        <span class="text bold no-wrap">{{ editMode ? 'Редактирование' : 'Добавление' }} докладчика</span>
+        <div class="actions">
+            <button type="button"
+                    color="primary"
+                    mat-button
+                    [disabled]="!editMode"
+                    (click)="reset()">
+                <mat-icon>close</mat-icon>
+                <span>Сбросить</span>
+            </button>
+            <button type="button"
+                    color="primary"
+                    mat-button
+                    [disabled]="speakerForm.invalid"
+                    (click)="save()">
+                <mat-icon>{{ editMode ? 'save' : 'add' }}</mat-icon>
+                <span>{{ editMode ? 'Сохранить' : 'Добавить' }}</span>
+            </button>
+            <button *ngIf="isDialog"
+                    type="button"
+                    color="primary"
+                    mat-icon-button
+                    (click)="close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
     </div>
 
     <div class="image-container"

@@ -80,6 +80,7 @@
                    (cdkDropListDropped)="onFriendDrop($event)">
         <ng-container *ngFor="let friend of friends; let i = index">
             <mat-expansion-panel [expanded]="!friend.id"
+                                 #friendPanel
                                  cdkDrag>
 
                 <mat-expansion-panel-header collapsedHeight="auto"
@@ -99,17 +100,21 @@
                                           fill="none"></path>
                                 </svg>
                             </span>
-                            <img class="avatar"
-                                 [src]="friend.id | friendImageUrl">
-                            <span>«{{ friend.name }}»</span>
+                            <ng-container *ngIf="!friendPanel.expanded">
+                                <img class="avatar"
+                                     [src]="friend.id | friendImageUrl">
+                                <span>«{{ friend.name }}»</span>
+                                <span>
+                                    <a target="_blank"
+                                       [href]="friend.url"
+                                       mat-button
+                                       onclick="event.stopPropagation()">
+                                        <mat-icon>public</mat-icon>
+                                        <span>На сайт</span>
+                                    </a>
+                                </span>
+                            </ng-container>
                             <span>
-                                <a target="_blank"
-                                   [href]="friend.url"
-                                   mat-button
-                                   onclick="event.stopPropagation()">
-                                    <mat-icon>public</mat-icon>
-                                    <span>На сайт</span>
-                                </a>
                                 <button type="button"
                                         mat-icon-button
                                         (click)="deleteFriend($event, i)">

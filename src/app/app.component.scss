@@ -1,0 +1,10 @@
+:host,
+.mat-drawer-container {
+    height: 100%;
+    display: block;
+}
+
+.router-container {
+    /* 64px - toolbar */
+    height: calc(100% - 64px);
+}

@@ -1,0 +1,39 @@
+<button mat-button
+        [matMenuTriggerFor]="createEntityMenu">
+  <mat-icon>fiber_new</mat-icon>
+  <span>Создать</span>
+</button>
+
+<a mat-button
+   [routerLink]="['/search']">
+  <mat-icon>search</mat-icon>
+  <span>Поиск</span>
+</a>
+
+<mat-menu #createEntityMenu="matMenu">
+  <a mat-menu-item
+     [routerLink]="['/timepad']">
+    <mat-icon svgIcon="meetup"></mat-icon>
+    <span>Встречу</span>
+  </a>
+  <a mat-menu-item
+     [routerLink]="['/speaker-creator']">
+    <mat-icon>person</mat-icon>
+    <span>Докладчика</span>
+  </a>
+  <a mat-menu-item
+     [routerLink]="['/talk-creator']">
+    <mat-icon>speaker_notes</mat-icon>
+    <span>Доклад</span>
+  </a>
+  <a mat-menu-item
+     [routerLink]="['/venue-creator']">
+    <mat-icon>account_balance</mat-icon>
+    <span>Площадку</span>
+  </a>
+  <a mat-menu-item
+     [routerLink]="['/friend-creator']">
+    <mat-icon>loyalty</mat-icon>
+    <span>Друга</span>
+  </a>
+</mat-menu>

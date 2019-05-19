@@ -23,11 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-hammerjs
+@angular/cdk
 MIT
-The MIT License (MIT)
+The MIT License
 
-Copyright (C) 2011-2014 by Jorik Tangelder (Eight Media)
+Copyright (c) 2019 Google LLC.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+
+@angular/core
+MIT
 
 tslib
 Apache-2.0
@@ -313,26 +316,19 @@ Apache-2.0
  
 
 
-@angular/core
+@angular/material/button
+
+@angular/platform-browser
 MIT
 
 @angular/common
 MIT
 
-@angular/platform-browser
+hammerjs
 MIT
+The MIT License (MIT)
 
-@angular/router
-MIT
-
-@angular/animations
-MIT
-
-@angular/cdk
-MIT
-The MIT License
-
-Copyright (c) 2019 Google LLC.
+Copyright (C) 2011-2014 by Jorik Tangelder (Eight Media)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -353,13 +349,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-@angular/material/button
+@angular/animations
+MIT
+
+@angular/material/icon
+
+@angular/router
+MIT
 
 @angular/material/snack-bar
 
 @angular/material/sidenav
-
-@angular/material/icon
 
 @angular/material/menu
 
@@ -390,3 +390,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+@angular/forms
+MIT
+
+@angular/material/form-field

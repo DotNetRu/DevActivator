@@ -37,7 +37,7 @@ export class SpeakerEditorComponent implements OnInit, OnDestroy {
 
   public editMode = false;
 
-  protected isDialog = false;
+  public isDialog = false;
 
   private _speakerId?: string;
   private _subs: Subscription[] = [];

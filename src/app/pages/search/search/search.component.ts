@@ -15,4 +15,8 @@ export class SearchComponent {
   public onSpeakerSelected(speaker: IAutocompleteRow): void {
     this._router.navigateByUrl(`speaker/${speaker.id}`);
   }
+
+  public addSpeaker(): void {
+    this._router.navigateByUrl('speaker');
+  }
 }

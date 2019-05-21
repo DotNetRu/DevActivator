@@ -11,6 +11,7 @@ import { SpeakerService } from '../speaker.service';
   selector: 'mtp-speaker-editor',
   templateUrl: './speaker-editor.component.html',
   styleUrls: ['./speaker-editor.component.scss'],
+  providers: [SpeakerService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpeakerEditorComponent implements OnInit, OnDestroy {

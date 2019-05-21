@@ -11,6 +11,7 @@ import { TalkService } from '../talk.service';
   selector: 'mtp-talk-editor',
   templateUrl: './talk-editor.component.html',
   styleUrls: ['./talk-editor.component.scss'],
+  providers: [TalkService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TalkEditorComponent implements OnInit, OnDestroy {

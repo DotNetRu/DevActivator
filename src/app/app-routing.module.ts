@@ -10,6 +10,10 @@ const routes: Routes = [
     path: 'talk',
     loadChildren: './pages/talk/talk.module#TalkModule'
   },
+  {
+    path: 'search',
+    loadChildren: './pages/search/search.module#SearchModule'
+  },
 
   {
     path: '**',

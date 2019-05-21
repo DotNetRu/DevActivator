@@ -5,18 +5,21 @@ import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } fr
 import { ComponentsModule } from 'src/app/components/components.module';
 import { SpeakerEditorDialogComponent } from './speaker-editor/speaker-editor-dialog.component';
 import { SpeakerEditorComponent } from './speaker-editor/speaker-editor.component';
+import { SpeakerListComponent } from './speaker-list/speaker-list.component';
 import { SpeakerRoutingModule } from './speaker-routing.module';
 
 @NgModule({
   declarations: [
     SpeakerEditorComponent,
     SpeakerEditorDialogComponent,
+    SpeakerListComponent,
   ],
   entryComponents: [
     SpeakerEditorDialogComponent,
   ],
   exports: [
     SpeakerEditorComponent,
+    SpeakerListComponent,
   ],
   imports: [
     CommonModule,

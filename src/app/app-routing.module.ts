@@ -6,6 +6,10 @@ const routes: Routes = [
     path: 'speaker',
     loadChildren: './pages/speaker/speaker.module#SpeakerModule'
   },
+  {
+    path: 'talk',
+    loadChildren: './pages/talk/talk.module#TalkModule'
+  },
 
   {
     path: '**',

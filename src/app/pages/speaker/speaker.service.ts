@@ -4,13 +4,14 @@ import { filter, map } from 'rxjs/operators';
 import { API_ENDPOINTS } from 'src/app/core/constants';
 import { HttpService } from 'src/app/core/http.service';
 import { LayoutService } from 'src/app/core/layout.service';
-import { ISpeaker } from 'src/app/models';
+import { IAutocompleteRow, ISpeaker } from 'src/app/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpeakerService {
   private _speaker$ = new BehaviorSubject<ISpeaker | null>(null);
+  private _speakers$ = new BehaviorSubject<IAutocompleteRow[]>([]);
 
   private _dataStore = {
     speaker: {} as ISpeaker,
@@ -21,6 +22,10 @@ export class SpeakerService {
       filter((x) => x !== null),
       map((x) => x as ISpeaker),
     );
+  }
+
+  public get speakers$(): Observable<IAutocompleteRow[]> {
+    return this._speakers$.pipe(filter((x) => x.length > 0));
   }
 
   constructor(
@@ -39,6 +44,13 @@ export class SpeakerService {
         this._dataStore.speaker = speaker;
         this._speaker$.next(Object.assign({}, this._dataStore.speaker));
       });
+  }
+
+  public fetchSpeakers(): void {
+    this._httpService.get<IAutocompleteRow[]>(
+      API_ENDPOINTS.getSpeakersUrl,
+      (speakers: IAutocompleteRow[]) => this._speakers$.next(speakers),
+    );
   }
 
   public addSpeaker(speaker: ISpeaker, cb: (speaker: ISpeaker) => void): void {

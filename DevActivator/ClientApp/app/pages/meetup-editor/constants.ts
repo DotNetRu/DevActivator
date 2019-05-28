@@ -7,4 +7,6 @@ export const COMMUNITIES: Community[] = [
     Community.KryDotNet,
     Community.KznDotNet,
     Community.NskDotNet,
+    Community.NnvDotNet,
+    Community.UfaDotNet,
 ];

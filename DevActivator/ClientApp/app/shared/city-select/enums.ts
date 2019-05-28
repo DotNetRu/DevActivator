@@ -5,4 +5,6 @@ export enum City {
     Kry = 4,
     Kzn = 5,
     Nsk = 6,
+    Nnv = 7,
+    Ufa = 8,
 }

@@ -7,6 +7,8 @@ namespace DevActivator.Meetups.BL.Enums
         SarDotNet = 3,
         KryDotNet = 4,
         KznDotNet = 5,
-        NskDotNet = 6
+        NskDotNet = 6,
+        NnvDotNet = 7,
+        UfaDotNet = 8
     }
 }

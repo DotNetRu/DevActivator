@@ -16,6 +16,8 @@ namespace DevActivator.Common.BL.Config
             {City.Kry, TimeSpan.FromHours(7)},
             {City.Kzn, TimeSpan.FromHours(3)},
             {City.Nsk, TimeSpan.FromHours(7)},
+            {City.Nnv, TimeSpan.FromHours(3)},
+            {City.Ufa, TimeSpan.FromHours(5)},
         };
     }
 }

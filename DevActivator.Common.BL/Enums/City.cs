@@ -18,6 +18,12 @@ namespace DevActivator.Common.BL.Enums
         Kzn = 5,
 
         /// <summary> Новосибирск </summary>
-        Nsk = 6
+        Nsk = 6,
+
+        /// <summary> Нижний Новгород </summary>
+        Nnv = 7,
+
+        /// <summary> Уфа </summary>
+        Ufa = 8
     }
 }

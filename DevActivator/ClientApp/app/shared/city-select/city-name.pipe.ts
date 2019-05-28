@@ -17,6 +17,10 @@ export class CityNamePipe implements PipeTransform {
                 return "Казань";
             case City.Nsk:
                 return "Новосибирск";
+            case City.Nnv:
+                return "Нижний Новгород";
+            case City.Ufa:
+                return "Уфа";
         }
 
         const exhaustingCheck: never = city;

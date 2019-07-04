@@ -21,8 +21,6 @@ RUN npm run lint
 
 RUN npm run prod
 
-RUN ls -la
-
 ### STAGE 2: Setup ###
 
 FROM nginx:alpine

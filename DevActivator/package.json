@@ -7,7 +7,7 @@
     "build:vendor": "webpack --config webpack.config.vendor.js",
     "lint": "node node_modules/tslint/bin/tslint -p tsconfig.json -c tslint.json",
     "test": "karma start ClientApp/test/karma.conf.js",
-    "prod": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod && node node_modules/webpack/bin/webpack.js --env.prod"
+    "prod": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js && node node_modules/webpack/bin/webpack.js"
   },
   "devDependencies": {
     "@angular/animations": "7.2.4",

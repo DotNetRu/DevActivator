@@ -20,5 +20,5 @@ export class AppModule {
 }
 
 export function getBaseUrl() {
-    return document.getElementsByTagName("base")[0].href;
+    return localStorage.getItem("BASE_URL") || document.getElementsByTagName("base")[0].href;
 }

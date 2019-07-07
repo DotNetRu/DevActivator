@@ -10726,7 +10726,7 @@ var AppModule = /** @class */ (function () {
 }());
 
 function getBaseUrl() {
-    return localStorage.getItem("BASE_URL") || document.getElementsByTagName("base")[0].href;
+    return localStorage.getItem("BASE_URL") || "https://server-dotnetru.azurewebsites.net/";
 }
 
 

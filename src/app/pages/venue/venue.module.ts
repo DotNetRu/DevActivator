@@ -6,6 +6,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { CityNamePipe } from './city-select/city-name.pipe';
 import { CitySelectComponent } from './city-select/city-select.component';
 import { VenueEditorComponent } from './venue-editor/venue-editor.component';
+import { VenueListComponent } from './venue-list/venue-list.component';
 import { VenueRoutingModule } from './venue-routing.module';
 
 @NgModule({
@@ -13,11 +14,13 @@ import { VenueRoutingModule } from './venue-routing.module';
     CitySelectComponent,
     VenueEditorComponent,
     CityNamePipe,
+    VenueListComponent,
   ],
   exports: [
     CitySelectComponent,
     VenueEditorComponent,
     CityNamePipe,
+    VenueListComponent,
   ],
   imports: [
     CommonModule,

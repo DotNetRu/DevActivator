@@ -4,7 +4,7 @@ import { filter, map } from 'rxjs/operators';
 import { API_ENDPOINTS } from 'src/app/core/constants';
 import { HttpService } from 'src/app/core/http.service';
 import { LayoutService } from 'src/app/core/layout.service';
-import { IVenue } from 'src/app/models';
+import { IAutocompleteRow, IVenue } from 'src/app/models';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,12 @@ export class VenueService {
       filter((x) => x !== null),
       map((x) => x as IVenue),
     );
+  }
+
+  private _venues$: BehaviorSubject<IAutocompleteRow[]> = new BehaviorSubject<IAutocompleteRow[]>([]);
+
+  public get venues$(): Observable<IAutocompleteRow[]> {
+    return this._venues$.pipe(filter((x) => x.length > 0));
   }
 
   constructor(
@@ -66,5 +72,12 @@ export class VenueService {
 
   public reset(): void {
     this._venue$.next(Object.assign({}, this._dataStore.venue));
+  }
+
+  public fetchVenues(): void {
+    this._httpService.get<IAutocompleteRow[]>(
+      API_ENDPOINTS.getVenuesUrl,
+      (venues: IAutocompleteRow[]) => this._venues$.next(venues),
+    );
   }
 }

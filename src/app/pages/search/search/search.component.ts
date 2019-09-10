@@ -27,4 +27,12 @@ export class SearchComponent {
   public addTalk(): void {
     this._router.navigateByUrl(`talk`);
   }
+
+  public onVenueSelected(venueId: string): void {
+    this._router.navigateByUrl(`venue/${venueId}`);
+  }
+
+  public addVenue(): void {
+    this._router.navigateByUrl(`venue`);
+  }
 }

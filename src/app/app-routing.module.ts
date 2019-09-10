@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: './pages/talk/talk.module#TalkModule'
   },
   {
+    path: 'venue',
+    loadChildren: './pages/venue/venue.module#VenueModule'
+  },
+  {
     path: 'search',
     loadChildren: './pages/search/search.module#SearchModule'
   },

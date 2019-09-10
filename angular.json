@@ -10,6 +10,7 @@
       "prefix": "mtp",
       "schematics": {
         "@schematics/angular:component": {
+          "spec": false,
           "styleext": "scss",
           "changeDetection": "OnPush"
         }

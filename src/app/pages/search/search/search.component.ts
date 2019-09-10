@@ -19,4 +19,12 @@ export class SearchComponent {
   public addSpeaker(): void {
     this._router.navigateByUrl('speaker');
   }
+
+  public onTalkSelected(talk: IAutocompleteRow): void {
+    this._router.navigateByUrl(`talk/${talk.id}`);
+  }
+
+  public addTalk(): void {
+    this._router.navigateByUrl(`talk`);
+  }
 }

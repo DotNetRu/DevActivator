@@ -6,14 +6,17 @@ import { ComponentsModule } from 'src/app/components';
 import { CoreModule } from 'src/app/core';
 import { SpeakerModule } from 'src/app/pages/speaker';
 import { TalkEditorComponent } from './talk-editor/talk-editor.component';
+import { TalkListComponent } from './talk-list/talk-list.component';
 import { TalkRoutingModule } from './talk-routing.module';
 
 @NgModule({
   declarations: [
     TalkEditorComponent,
+    TalkListComponent,
   ],
   exports: [
     TalkEditorComponent,
+    TalkListComponent,
   ],
   imports: [
     CommonModule,

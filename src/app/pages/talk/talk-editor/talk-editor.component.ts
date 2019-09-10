@@ -8,11 +8,11 @@ import { SpeakerEditorDialogComponent } from 'src/app/pages/speaker';
 import { TalkService } from '../talk.service';
 
 @Component({
-  selector: 'mtp-talk-editor',
-  templateUrl: './talk-editor.component.html',
-  styleUrls: ['./talk-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TalkService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'mtp-talk-editor',
+  styleUrls: ['./talk-editor.component.scss'],
+  templateUrl: './talk-editor.component.html',
 })
 export class TalkEditorComponent implements OnInit, OnDestroy {
   public readonly LABELS = LABELS;
@@ -21,22 +21,28 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
   @Input() public set talkId(value: string) {
     this._talkId = value;
     this.editMode = typeof this._talkId === 'string' && this._talkId.length > 0;
-    this._talkEditorService.fetchTalk(this._talkId);
+    this._talkService.fetchTalk(this._talkId);
   }
 
   @Output() public readonly saved: EventEmitter<ITalk> = new EventEmitter<ITalk>();
 
-  public talk: ITalk = TalkService.getDefaultTalk();
+  // todo: create service method getDefaultTalk
+  public talk: ITalk = {
+    description: '',
+    id: '',
+    speakerIds: [],
+    title: '',
+  };
 
   public editMode = false;
 
-  public isDialog = false;
+  protected isDialog = false;
 
   private _talkId?: string;
   private _subs: Subscription[] = [];
 
   constructor(
-    private _talkEditorService: TalkService,
+    private _talkService: TalkService,
     private _dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
@@ -51,7 +57,7 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
             this.talkId = params.talkId;
           }
         }),
-      this._talkEditorService.talk$
+      this._talkService.talk$
         .subscribe((talk: ITalk) => {
           this.talk = talk;
           this._changeDetectorRef.detectChanges();
@@ -65,19 +71,19 @@ export class TalkEditorComponent implements OnInit, OnDestroy {
 
   public save(cb?: (talk: ITalk) => void): void {
     if (this.editMode) {
-      this._talkEditorService.updateTalk(this.talk, () => {
+      this._talkService.updateTalk(this.talk, () => {
         this.saved.emit(this.talk);
       });
     } else {
       cb = cb || ((talk: ITalk) => {
-        this._router.navigateByUrl(`talk${talk ? `/${talk.id}` : ''}`);
+        this._router.navigateByUrl(`talk-editor${talk ? `/${talk.id}` : ''}`);
       });
-      this._talkEditorService.addTalk(this.talk, cb);
+      this._talkService.addTalk(this.talk, cb);
     }
   }
 
   public reset(): void {
-    this._talkEditorService.reset();
+    this._talkService.reset();
   }
 
   public close(): void {

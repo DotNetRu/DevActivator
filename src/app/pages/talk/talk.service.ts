@@ -4,7 +4,7 @@ import { filter, map } from 'rxjs/operators';
 import { API_ENDPOINTS } from 'src/app/core/constants';
 import { HttpService } from 'src/app/core/http.service';
 import { LayoutService } from 'src/app/core/layout.service';
-import { IApiTalk, ITalk } from 'src/app/models';
+import { IAutocompleteRow, ITalk } from 'src/app/models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,12 @@ export class TalkService {
       filter((x) => x !== null),
       map((x) => x as ITalk),
     );
+  }
+
+  private _talks$: BehaviorSubject<IAutocompleteRow[]> = new BehaviorSubject<IAutocompleteRow[]>([]);
+
+  public get talks$(): Observable<IAutocompleteRow[]> {
+    return this._talks$.pipe(filter((x) => x.length > 0));
   }
 
   constructor(
@@ -36,51 +42,37 @@ export class TalkService {
     });
   }
 
-  public static toTalk(apiTalk: IApiTalk): ITalk {
-    return Object.assign({}, apiTalk, {
-      speakerIds: apiTalk.speakerIds.map(id => ({ speakerId: id })),
-    });
-  }
-
-  public static toApiTalk(talk: ITalk): IApiTalk {
-    return Object.assign({}, talk, {
-      speakerIds: talk.speakerIds.map(ref => ref.speakerId),
-    });
-  }
-
   public hasChanges(talk: ITalk): boolean {
     return JSON.stringify(talk) !== JSON.stringify(this._dataStore.talk);
   }
 
   public fetchTalk(talkId: string): void {
-    this._httpService.get<IApiTalk>(
+    this._httpService.get<ITalk>(
       API_ENDPOINTS.getTalkUrl.replace('{{talkId}}', talkId),
-      (apiTalk: IApiTalk) => {
-        this._dataStore.talk = TalkService.toTalk(apiTalk);
+      (talk: ITalk) => {
+        this._dataStore.talk = talk;
         this._talk$.next(Object.assign({}, this._dataStore.talk));
       });
   }
 
   public addTalk(talk: ITalk, cb: (res: ITalk) => void): void {
-    const apiTalk = TalkService.toApiTalk(talk);
-    this._httpService.post<IApiTalk>(
+    this._httpService.post<ITalk>(
       API_ENDPOINTS.addTalkUrl,
-      apiTalk,
-      (res: IApiTalk) => {
+      talk,
+      (res: ITalk) => {
         this._layoutService.showInfo('Доклад добавлен успешно');
-        cb(TalkService.toTalk(res));
+        cb(res);
       },
     );
   }
 
   public updateTalk(talk: ITalk, cb: () => void): void {
-    const apiTalk = TalkService.toApiTalk(talk);
-    this._httpService.post<IApiTalk>(
+    this._httpService.post<ITalk>(
       API_ENDPOINTS.updateTalkUrl,
-      apiTalk,
-      (x: IApiTalk) => {
+      talk,
+      (x: ITalk) => {
         this._layoutService.showInfo('Доклад изменён успешно');
-        this._dataStore.talk = TalkService.toTalk(x);
+        this._dataStore.talk = x;
         this._talk$.next(Object.assign({}, this._dataStore.talk));
         cb();
       },
@@ -89,5 +81,12 @@ export class TalkService {
 
   public reset(): void {
     this._talk$.next(Object.assign({}, this._dataStore.talk));
+  }
+
+  public fetchTalks(): void {
+    this._httpService.get<IAutocompleteRow[]>(
+      API_ENDPOINTS.getTalksUrl,
+      (talks: IAutocompleteRow[]) => this._talks$.next(talks),
+    );
   }
 }

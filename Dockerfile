@@ -36,9 +36,5 @@ COPY --from=builder /ng-app/wwwroot/dist /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# * docker image build -t ovcharov/devactivator:0.1 .
-# * docker run -p 3000:80 --rm ovcharov/devactivator:0.1
-
-# * docker push ovcharov/devactivator:0.1
-# ! docker pull wert.industry:81/dockerhub/library/living-spa:0.1
-# ! docker run -p 3000:80 --rm -t ovcharov/devactivator:0.1
+# * docker image build -t dotnetru/devactivator:latest .
+# * docker run -p 3000:80 --rm dotnetru/devactivator:latest

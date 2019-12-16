@@ -1,5 +1,5 @@
 image:
-- Visual Studio 2017
+- Visual Studio 2019
 - Ubuntu
 
 version: 0.1.0.{build}
@@ -37,30 +37,32 @@ for:
   -
     matrix:
       only:
-        - image: Visual Studio 2017
+        - image: Visual Studio 2019
     before_build:
+      - npm i -g electron-packager@14.1.1
       - dotnet restore ElectronNetAngular.sln
       - cd DevActivator
       - npm ci
-    after_test:
+      - cd ..
+      - dotnet tool install -g ElectronNET.CLI --version 0.0.10
+    build_script:
       - dotnet build ElectronNetAngular.sln
       - electronize build /target win
-      - cd DevActivator/obj/desktop/win
-      - npm install
-      - cd ../../../../
-      - electron-packager . --platform=win32 --arch=x64  --out="%APPVEYOR_BUILD_FOLDER%\DevActivator\bin\desktop" --overwrite --electron-version=4.0.0
+      - dir devactivator\bin\desktop
+    test: off
   -
     matrix:
       only:
         - image: Ubuntu
     build_script:
-      - docker image build -t dotnetru/devactivator:latest -t dotnetru/devactivator:%APPVEYOR_BUILD_VERSION% .
+      - ps: docker image build -t dotnetru/devactivator:latest -t dotnetru/devactivator:$env:APPVEYOR_BUILD_VERSION .
     deploy_script:
-      - docker push dotnetru/devactivator:latest
-      - docker push dotnetru/devactivator:%APPVEYOR_BUILD_VERSION%
+      - ps: $env:DOCKER_PASS | docker login --username dotnetrucd --password-stdin
+      - ps: docker push dotnetru/devactivator:latest
+      - ps: docker push dotnetru/devactivator:$env:APPVEYOR_BUILD_VERSION
 
 build:
-  project: DotNetRuServer.sln
+  project: ElectronNetAngular.sln
   publish_nuget: false
   publish_aspnet_core: false
   publish_core_console: false

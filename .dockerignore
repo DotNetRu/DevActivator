@@ -8,23 +8,10 @@ etc.
 node_modules
 
 DevActivator/.vscode/
-DevActivator/Controllers/
-DevActivator/Extensions/
-DevActivator/Middlewares/
-DevActivator/Models/
 DevActivator/node_modules/
-DevActivator/Views/
-DevActivator/wwwroot/dist/
 
-DevActivator.Common.BL/
-DevActivator.Common.DAL/
-DevActivator.Image.Core/
-DevActivator.Meetups.BL/
-DevActivator.Meetups.DAL/
-DevActivator.Meetups.Tests/
 **/bin/
 **/obj/
 scripts
 test
 tools
-ElectronNetAngular.sln*

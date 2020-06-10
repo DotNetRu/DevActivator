@@ -1,6 +1,4 @@
-image:
-- Visual Studio 2019
-- Ubuntu
+image: Ubuntu
 
 version: 0.1.0.{build}
 
@@ -11,61 +9,30 @@ pull_requests:
   # Do not increment build number for pull requests
   do_not_increment_build_number: true
 
-nuget:
-  # Do not publish NuGet packages for pull requests
-  disable_publish_on_pr: true
-
 environment:
-  # Set the DOTNET_SKIP_FIRST_TIME_EXPERIENCE environment variable to stop wasting time caching packages
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  # Disable sending usage data to Microsoft
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # DOCKER_BUILDKIT: 1
   DOCKER_PASS:
     secure: 7xusxxMFy9iURl0Ktuzri5XyT3/NDKlsU3kkfJ+Sq90=
+
+cache:
+  - /var/run/docker.sock -> Dockerfile, local.Dockerfile
 
 skip_commits:
   files:
     - README.md
 
-init:
-  - git config --global core.autocrlf false
-
-configuration:
-  - Release
-
-for:
-  -
-    matrix:
-      only:
-        - image: Visual Studio 2019
-    before_build:
-      - npm i -g electron-packager@14.1.1
-      - dotnet restore ElectronNetAngular.sln
-      - cd DevActivator
-      - npm ci
-      - cd ..
-      - dotnet tool install -g ElectronNET.CLI --version 0.0.10
-    build_script:
-      - dotnet build ElectronNetAngular.sln
-      - electronize build /target win
-      - dir devactivator\bin\desktop
-    test: off
-  -
-    matrix:
-      only:
-        - image: Ubuntu
-    build_script:
-      - ps: docker image build -t dotnetru/devactivator:latest -t dotnetru/devactivator:$env:APPVEYOR_BUILD_VERSION .
-    deploy_script:
-      - ps: $env:DOCKER_PASS | docker login --username dotnetrucd --password-stdin
-      - ps: docker push dotnetru/devactivator:latest
-      - ps: docker push dotnetru/devactivator:$env:APPVEYOR_BUILD_VERSION
-
 build:
-  project: ElectronNetAngular.sln
-  publish_nuget: false
-  publish_aspnet_core: false
-  publish_core_console: false
-  verbosity: minimal
+  verbosity: quiet
 
-deploy: off
+build_script:
+  - ps: docker image build -f local.Dockerfile -t dotnetru/devactivator-local:latest -t dotnetru/devactivator-local:$env:APPVEYOR_BUILD_VERSION .
+  - ps: docker image build -t dotnetru/devactivator:latest -t dotnetru/devactivator:$env:APPVEYOR_BUILD_VERSION .
+
+test: off
+
+deploy_script:
+  - ps: $env:DOCKER_PASS | docker login --username dotnetrucd --password-stdin
+  - ps: docker push dotnetru/devactivator-local:latest
+  - ps: docker push dotnetru/devactivator-local:$env:APPVEYOR_BUILD_VERSION
+  - ps: docker push dotnetru/devactivator:latest
+  - ps: docker push dotnetru/devactivator:$env:APPVEYOR_BUILD_VERSION

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  devactivator:
+    image: devactivator
+    build:
+      context: .
+      dockerfile: local.Dockerfile
+    container_name: devactivator
+    ports:
+      - "5000:80"
+    volumes:
+      - ../Audit:/Users/alex-mbp/repos/Audit
